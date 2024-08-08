@@ -1,0 +1,23 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/Frontend/edunect/node_modules
+/Frontend/edunect/.pnp
+/Frontend/edunect/.pnp.js
+
+# testing
+/Frontend/edunect/coverage
+
+# production
+/Frontend/edunect/build
+
+# misc
+/Frontend/edunect/.DS_Store
+/Frontend/edunect/.env.local
+/Frontend/edunect/.env.development.local
+/Frontend/edunect/.env.test.local
+/Frontend/edunect/.env.production.local
+
+/Frontend/edunect/npm-debug.log*
+/Frontend/edunect/yarn-debug.log*
+/Frontend/edunect/yarn-error.log*
