@@ -51,8 +51,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'edunect.urls'
-SESSION_COOKIE_AGE = 1209600  # Two weeks in seconds
+SESSION_COOKIE_AGE = 1209600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
