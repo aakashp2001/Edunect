@@ -2,10 +2,14 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django.contrib.auth.models import UserManager
-
 class CustomUser(AbstractUser):
-    user_type = models.CharField(max_length=10, choices=[('admin', 'Admin'), ('student', 'Student')], default='student')
-
+    user_type = models.CharField(max_length=10, choices=[('admin', 'Admin'), ('student', 'Student')], default='admin')
+    first_time = models.BooleanField(blank=True, null=True)
+    full_name = models.CharField(max_length=50, blank=True, null=True)
+    branch = models.CharField(max_length=20, blank=True, null=True)
+    batch = models.CharField(max_length=5, blank=True, null=True)
+    roll_no = models.CharField(max_length=5, blank=True, null=True)
+    
     class Meta:
         permissions = [
             ("can_view_dashboard", "Can view dashboard"),

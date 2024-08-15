@@ -7,6 +7,7 @@ import json
 from datetime import datetime, timedelta
 from django.conf import settings
 from account.models import CustomUser
+import pandas as pd
 
 def get_session_data():
     session_expiry_age = getattr(settings, 'SESSION_COOKIE_AGE', 1209600)
@@ -46,19 +47,84 @@ def logout_view(request):
 @csrf_exempt
 def signup_view(request):
     if request.method == 'POST':
-        try:
+        if 'file' in request.FILES:
+            uploaded_file = request.FILES['file']
+            password = request.POST.get('password', 'defaultpassword') 
             
-            data = json.loads(request.body)
-            username = data.get('username')
-            password = data.get('password')
-            email = data.get('email')
-            first_name = data.get('first_name')
-            last_name = data.get('last_name')
-            user_type = data.get('user_type')
-            user = CustomUser.objects.create_user(username=username, password=password,email=email,first_name=first_name,last_name=last_name,user_type=user_type)
-            login(request, user)
-            session_expiry_age,expires_at = get_session_data()
-            return JsonResponse({'resp': 1, 'message': 'User signed up and logged in','session_expiry_age':session_expiry_age,'expire_at':expires_at})
-        except json.JSONDecodeError:
-            return JsonResponse({'resp': 0, 'message': 'Invalid JSON'})
-    return JsonResponse({'resp': 0, 'message': 'Invalid request method'})
+            try:
+                if uploaded_file.name.endswith('.xlsx'):
+                    df = pd.read_excel(uploaded_file, engine='openpyxl')
+                elif uploaded_file.name.endswith('.xls'):
+                    df = pd.read_excel(uploaded_file, engine='xlrd')
+                else:
+                    return JsonResponse({'error': 'Unsupported file type'}, status=400)
+
+                required_fields = ['username', 'email', 'full_name','branch','batch','roll_no']
+                field_mappings = {
+                    'enrollment': 'username',
+                    'email': 'email',
+                    'full_name': 'full_name',
+                    'Branch': 'branch',
+                    'batch': 'batch',
+                    'SEM-3-Roll No': 'roll_no'
+                }
+
+                users_to_create = []
+                error_messages = []
+
+                for index, row in df.iterrows():
+                    user_data = {}
+                    missing_fields = []
+
+                    for key, mapped_field in field_mappings.items():
+                        value = row.get(key, '')
+                        if pd.isna(value):
+                            value = ''
+                        user_data[mapped_field] = value
+                        print(mapped_field,required_fields,sep="  ")
+                        if mapped_field in required_fields and value == '':
+                            print('in me')
+                            missing_fields.append(key)
+
+                    user_data['password'] = password
+                    user_data['first_time'] = True
+
+                    if missing_fields:
+                        error_messages.append({
+                            'row': index + 1,  
+                            'missing_fields': missing_fields
+                        })
+                        continue 
+
+                    users_to_create.append(user_data)
+
+                if error_messages:
+                    return JsonResponse({
+                        'error': 'Missing required fields in some rows',
+                        'details': error_messages
+                    }, status=400)
+
+                for user_data in users_to_create:
+                    try:
+                        CustomUser.objects.create_user(
+                            username=user_data['username'],
+                            password=user_data['password'],
+                            email=user_data['email'],
+                            full_name=user_data['full_name'],
+                            user_type=user_data.get('user_type', 'student'),
+                            branch=user_data.get('branch', ''),
+                            batch=user_data.get('batch', ''),
+                            roll_no=user_data.get('roll_no', ''),
+                            first_time=user_data['first_time']
+                        )
+                    except Exception as e:
+                        return JsonResponse({'error': f'Error creating user: {str(e)}'}, status=400)
+
+                return JsonResponse({'message': 'Users created successfully!',"data":missing_fields})
+
+            except Exception as e:
+                return JsonResponse({'error': f'Error processing file: {str(e)}'}, status=400)
+        
+        return JsonResponse({'error': 'No file uploaded'}, status=400)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
