@@ -22,6 +22,8 @@ function Login() {
             } else {
                 console.log(data.message);
             }
+        }).catch(error =>{
+            console.log("error"+error)
         });
         console.log("Login need to be done")
     }
@@ -38,18 +40,18 @@ function Login() {
                 <div className="bg-gray-100 py-8 px-4 shadow-lg rounded-lg sm:round-lg sm:px-10">
                     <form method="POST" class="space-y-6" onSubmit={performLogin}>
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">
-                                Email address
+                            <label htmlFor="username" class="block text-sm font-medium text-gray-700">
+                                Enter Username:
                             </label>
                             <div class="mt-1">
-                                <input id="email" name="email" type="email" autocomplete="email" required
+                                <input id="username" name="username" type="text" required
                                     class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                    placeholder="Enter your email address" onChange={(e)=>{setUsername(e.target.value)}} />
+                                    placeholder="Enter your username" onChange={(e)=>{setUsername(e.target.value)}} />
                             </div>
                         </div>
 
                         <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700">
+                            <label htmlFOr="password" class="block text-sm font-medium text-gray-700">
                                 Password
                             </label>
                             <div class="mt-1">

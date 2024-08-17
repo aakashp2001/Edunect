@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:3001",  # Replace with your frontend URL
-    "http://localhost:3001",  # If you're using localhost
+    "http://127.0.0.1:3000",  # Replace with your frontend URL
+    "http://localhost:3000",  # If you're using localhost
 ]
 CORS_ALLOW_METHODS = [
     'GET',
