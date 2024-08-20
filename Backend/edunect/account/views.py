@@ -27,8 +27,8 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 session_expiry_age,expires_at = get_session_data()
-                # Return a response indicating success
-                return JsonResponse({'resp': 1, 'message': 'User Logged in','session_expiry_age':session_expiry_age,'expire_at':expires_at})
+
+                return JsonResponse({'resp': 1, 'message': 'User Logged in','session_expiry_age':session_expiry_age,'expire_at':expires_at,'first_time':user.first_time})
             else:
                 return JsonResponse({'resp': 0, 'message': 'Invalid User Credentials'})
         except json.JSONDecodeError:
@@ -100,6 +100,7 @@ def signup_view(request):
 
                 if error_messages:
                     return JsonResponse({
+                        'resp': '0',
                         'error': 'Missing required fields in some rows',
                         'details': error_messages
                     }, status=400)
@@ -118,13 +119,13 @@ def signup_view(request):
                             first_time=user_data['first_time']
                         )
                     except Exception as e:
-                        return JsonResponse({'error': f'Error creating user: {str(e)}'}, status=400)
+                        return JsonResponse({'resp': '0','error': f'Error creating user: {str(e)}'}, status=400)
 
-                return JsonResponse({'message': 'Users created successfully!',"data":missing_fields})
+                return JsonResponse({'resp':1,'message': 'Users created successfully!',"data":missing_fields})
 
             except Exception as e:
-                return JsonResponse({'error': f'Error processing file: {str(e)}'}, status=400)
+                return JsonResponse({'resp': '0','error': f'Error processing file: {str(e)}'}, status=400)
         
-        return JsonResponse({'error': 'No file uploaded'}, status=400)
+        return JsonResponse({'resp': '0','error': 'No file uploaded'}, status=400)
     
-    return JsonResponse({'error': 'Invalid request method'}, status=405)
+    return JsonResponse({'resp': '0','error': 'Invalid request method'}, status=405)
