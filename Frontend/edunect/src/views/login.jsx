@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
-
+import { useLogin } from "../required_context/LoginContext"
+import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
+    const { login,isLoggedIn } = useLogin(username)
+   
+    
+    const navigate = useNavigate()
+    if (isLoggedIn) {
+        // If the user is already logged in, redirect to the home page
+        return <Navigate to="/home" replace />;
+    }
     const performLogin = (e) => {
         e.preventDefault();
         console.log('Performing login');
@@ -17,18 +26,21 @@ function Login() {
                 password: password,
             }),
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if (data.resp === 1) {
-                console.log(data.message);
-            } else {
-                console.log(data.message);
-            }
-        })
-        .catch(error => {
-            console.error("Fetch error:", error.message || error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.resp === 1) {
+                    // user found: loging in
+                    login(data.userType, username)
+                    return navigate("/home")
+                } else {
+                    // user/password failed to match
+                    document.getElementById('error-message').innerHTML = 'Username or Password is invalid'
+                }
+            })
+            .catch(error => {
+                console.error("Fetch error:", error.message || error);
+            });
         console.log("Login attempt complete");
     }
 
@@ -47,14 +59,14 @@ function Login() {
                                 Enter Username:
                             </label>
                             <div className="mt-1">
-                                <input 
-                                    id="username" 
-                                    name="username" 
-                                    type="text" 
+                                <input
+                                    id="username"
+                                    name="username"
+                                    type="text"
                                     required
                                     className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                    placeholder="Enter your username" 
-                                    onChange={(e) => setUsername(e.target.value)} 
+                                    placeholder="Enter your username"
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -64,26 +76,29 @@ function Login() {
                                 Password
                             </label>
                             <div className="mt-1">
-                                <input 
-                                    id="password" 
-                                    name="password" 
-                                    type="password" 
-                                    autoComplete="current-password" 
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autoComplete="current-password"
                                     required
                                     className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                    placeholder="Enter your password" 
-                                    onChange={(e) => setPassword(e.target.value)} 
+                                    placeholder="Enter your password"
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                         </div>
-
+                        
                         <div>
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 className="group relative w-full flex justify-center my-7 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Sign in
                             </button>
+                            <div className='text-red-700 text-center rounded-md bg-red-100  ' id='error-message'>
+
+                            </div>
                         </div>
                     </form>
                 </div>
