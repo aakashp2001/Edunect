@@ -15,7 +15,7 @@ function AdminNav() {
     }   
 
     return (
-        <div>
+        <div className='sticky top-0 z-50'>
 
             <nav className='bg-gray-100 shadow'>
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
