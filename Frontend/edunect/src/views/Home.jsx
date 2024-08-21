@@ -78,7 +78,7 @@ function Home() {
         <div className="p-6 bg-gray-100">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className='flex flex-col space-y-6 flex-1'>
-              <div className="flex-1 bg-white items-center justify-center text-center rounded-lg shadow-md">
+              <div className="flex-1 bg-white flex flex-col items-center justify-center text-center rounded-lg shadow-md">
                 <h1 className='px-6 py-3 mt-6 text-4xl font-extrabold leading-none tracking-tight'>
                   Welcome, {username}!
                 </h1>
