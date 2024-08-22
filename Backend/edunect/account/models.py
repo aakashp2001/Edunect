@@ -32,3 +32,14 @@ class CustomUser(AbstractUser):
         help_text='Specific permissions for this user.',
         related_query_name='customuser'
     )
+
+class Notification(models.Model):
+    notification_head = models.CharField(max_length=100)
+    notification_body = models.TextField()
+    date = models.DateField()
+
+    class Meta:
+        db_table = 'Notification'
+    
+    def __str__(self):
+        return self.type

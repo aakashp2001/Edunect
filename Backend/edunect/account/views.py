@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 import json
 from datetime import datetime, timedelta
 from django.conf import settings
-from account.models import CustomUser
+from account.models import *
 import pandas as pd
 
 def get_session_data():
@@ -152,3 +152,53 @@ def password_change_view(request):
             return JsonResponse({'resp': 0, 'message': 'Invalid JSON.'})
     else:
         return JsonResponse({'resp': 0, 'message': 'Invalid HTTP method. Only POST is allowed.'})
+    
+@csrf_exempt
+def get_student_data(request):
+    if request.method == 'POST':
+        try:
+            user = CustomUser.objects.filter(user_type='student')
+            return JsonResponse({'resp': 1, 'message': 'Student data is sent.','data':user})
+        except json.JSONDecodeError:
+            return JsonResponse({'resp': 0, 'message': 'Invalid JSON.'})
+    else:
+        return JsonResponse({'resp': 0, 'message': 'Invalid HTTP method. Only POST is allowed.'})
+            
+
+def get_notifications_view(request):
+    if request.method == 'GET':
+        try:
+            notifications = Notification.objects.all().order_by('-date')
+            notifications_list = list(notifications.values()) 
+
+            return JsonResponse({'resp': 1, 'data': notifications_list})
+        except Exception as e:
+            return JsonResponse({'resp': 0, 'message': str(e)})
+    else:
+        return JsonResponse({'resp': 0, 'message': 'Invalid request method'})
+
+@csrf_exempt
+def add_notification_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            notification_head = data.get('notification_head')
+            notification_body = data.get('notification_body')
+            date_str = data.get('date')
+
+            # Convert the date from DD/MM/YYYY to YYYY-MM-DD
+            date = datetime.strptime(date_str, '%d/%m/%Y').strftime('%Y-%m-%d')
+
+            # Create and save the new notification
+            notification = Notification(
+                notification_head=notification_head,
+                notification_body=notification_body,
+                date=date
+            )
+            notification.save()
+
+            return JsonResponse({'resp': 0,'message': 'Notification added successfully'})
+        except Exception as e:
+            return JsonResponse({'resp': 0,'message': str(e)})
+    else:
+        return JsonResponse({'resp': 0,'message': 'Invalid request method'})
