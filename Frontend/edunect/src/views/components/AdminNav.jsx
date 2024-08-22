@@ -1,9 +1,9 @@
 import React from 'react'
 import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
-import {useLogin} from '../../required_context/LoginContext.jsx'
+import { useLogin } from '../../required_context/LoginContext.jsx'
 function AdminNav() {
-    const { logout } =  useLogin()
+    const { logout,userType } = useLogin()
 
     const toggleNav = () => {
         const menu = document.getElementById('navbar-default');
@@ -12,10 +12,11 @@ function AdminNav() {
 
     const performLogout = () => {
         logout()
-    }   
+    }
 
     return (
-        <div className='sticky top-0 z-50'>
+        
+        < div className = 'sticky top-0 z-50' >
 
             <nav className='bg-gray-100 shadow'>
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -39,15 +40,15 @@ function AdminNav() {
                             <li>
                                 <Link to='/' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Notification</Link>
                             </li>
-                            <li>
+                            {(userType==='undefined') &&<li>
                                 <Link to='/signup' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>SignUp</Link>
-                            </li>
+                            </li>}
                             <li>
                                 <Link to='#' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Result</Link>
                             </li>
-                            <li>
+                            {(userType==='undefined') &&<li>
                                 <Link to='/students' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Students</Link>
-                            </li>
+                            </li>}
                             <li>
                                 <Link to='/document' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Documents</Link>
                             </li>
@@ -59,7 +60,7 @@ function AdminNav() {
                 </div>
             </nav>
 
-        </div>
+        </div >
     )
 }
 
