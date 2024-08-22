@@ -46,10 +46,10 @@ function AdminNav() {
                                 <Link to='#' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Result</Link>
                             </li>
                             <li>
-                                <Link to='#' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Students</Link>
+                                <Link to='/students' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Students</Link>
                             </li>
                             <li>
-                                <Link to='#' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Documents</Link>
+                                <Link to='/document' class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Documents</Link>
                             </li>
                             <li>
                                 <Link to='#' class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" aria-current='page' onClick={performLogout}>Logout</Link>
