@@ -46,6 +46,7 @@ def logout_view(request):
 
 @csrf_exempt
 def signup_view(request):
+
     if request.method == 'POST':
         if 'file' in request.FILES:
             uploaded_file = request.FILES['file']
@@ -129,3 +130,25 @@ def signup_view(request):
         return JsonResponse({'resp': '0','error': 'No file uploaded'}, status=400)
     
     return JsonResponse({'resp': '0','error': 'Invalid request method'}, status=405)
+
+@csrf_exempt
+def password_change_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            current_password = data.get('current_password')
+            new_password = data.get('new_password')
+
+            user = authenticate(username=username, password=current_password)
+            if user is not None:
+                user.set_password(new_password)
+                user.save()
+
+                return JsonResponse({'resp': 1, 'message': 'Password changed successfully!'})
+            else:
+                return JsonResponse({'resp': 0, 'message': 'Invalid username or current password.'})
+        except json.JSONDecodeError:
+            return JsonResponse({'resp': 0, 'message': 'Invalid JSON.'})
+    else:
+        return JsonResponse({'resp': 0, 'message': 'Invalid HTTP method. Only POST is allowed.'})
