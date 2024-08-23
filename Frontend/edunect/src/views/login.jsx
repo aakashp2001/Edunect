@@ -7,7 +7,6 @@ function Login() {
     const [password, setPassword] = useState("");
     const { login,isLoggedIn } = useLogin(username)
    
-    
     const navigate = useNavigate()
     if (isLoggedIn) {
         // If the user is already logged in, redirect to the home page
@@ -31,7 +30,7 @@ function Login() {
                 console.log(data);
                 if (data.resp === 1) {
                     // user found: loging in
-                    login(data.userType, username)
+                    login(data.user_type, username)
                     return navigate("/home")
                 } else {
                     // user/password failed to match

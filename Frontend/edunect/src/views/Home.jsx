@@ -70,8 +70,7 @@ function Home() {
     { title: "New Policy Update", message: "New student policy updates have been published.", date: "August 20, 2024" },
     { title: "Campus Event", message: "Join us for the campus clean-up day this Friday.", date: "August 19, 2024" },
   ];
-  console.log(userType)
-  if (userType === 'undefined') {
+  if (userType === 'admin') {
     return (
       <div>
         <AdminNav />
@@ -131,7 +130,12 @@ function Home() {
 
   }
   else {
-    return (<></>)
+    return (
+    <>
+    <AdminNav/>
+    Hello Student
+    </>
+    )
   }
 }
 

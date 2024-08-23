@@ -9,6 +9,7 @@ import PrivateRoute from './views/components/PrivateRoute.jsx';
 import Documents from './views/Documents.jsx';
 import Student from './views/components/Student.jsx';
 import Footer from './views/components/Footer.jsx';
+import Notifications from './views/Notifications.jsx';
 function App() {
   return (
     <div>
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/signup" element={<Register />} />
                 <Route path="/document" element={<Documents/>}/>
                 <Route path='/students' element={<Student/>}/>
+                <Route path='/notifications' element={<Notifications/>}/>
               </Route>
 
               <Route path="*" element={<NotFound />} />
