@@ -28,7 +28,7 @@ def login_view(request):
                 login(request, user)
                 session_expiry_age,expires_at = get_session_data()
 
-                return JsonResponse({'resp': 1, 'message': 'User Logged in','session_expiry_age':session_expiry_age,'expire_at':expires_at,'first_time':user.first_time})
+                return JsonResponse({'resp': 1, 'message': 'User Logged in','session_expiry_age':session_expiry_age,'expire_at':expires_at,'first_time':user.first_time,'user_type':user.user_type})
             else:
                 return JsonResponse({'resp': 0, 'message': 'Invalid User Credentials'})
         except json.JSONDecodeError:
