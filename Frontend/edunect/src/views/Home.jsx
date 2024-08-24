@@ -1,14 +1,34 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLogin } from "../required_context/LoginContext"
 import AdminNav from './components/AdminNav';
+import axios from 'axios';
 function Home() {
 
   const { isLoggedIn, userType, username } = useLogin()
+  const [notificationArr, setNotificationArr] = useState([])
+  var arry = [];
+  
+  // setNotificationArr(arr)
   useEffect(() => {
     if (!userType) {
       window.location.reload()
     }
-  })
+    axios.get('http://127.0.0.1:8000/account/getNotification')
+    .then((response) => {
+      const arr = (response.data.data);
+
+      // console.log(arr);
+      
+      // arry = arr
+      // console.log(arry);
+      // for (let i in arr){
+      //   console.log(arr[i]);
+      // }
+      setNotificationArr(arr);
+      
+    }).catch((err) => { console.error(err) });
+
+  },[])
   const contacts = [{
     "Activity": "Internal Quality Assurance Cell",
     "Coordinator": "Mr. Rohit Patel",
@@ -86,10 +106,10 @@ function Home() {
               <div className="flex-1 bg-white p-6 rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-4">Notifications</h2>
                 <ul className="space-y-4">
-                  {notifications.map((notification) => (
+                  {notificationArr.slice(0,3).map((notification) => (
                     <li className="border-b border-gray-200 pb-4">
-                      <p className="text-gray-800 font-semibold">{notification.title}</p>
-                      <p className="text-gray-600">{notification.message}</p>
+                      <p className="text-gray-800 font-semibold">{notification.notification_head}</p>
+                      <p className="text-gray-600">{notification.notification_body.split('\n').map(body=>{return (<div>{body}<br/></div>)})}</p>
                       <p className="text-gray-400 text-sm">{notification.date}</p>
                     </li>
                   ))}
@@ -131,10 +151,10 @@ function Home() {
   }
   else {
     return (
-    <>
-    <AdminNav/>
-    Hello Student
-    </>
+      <>
+        <AdminNav />
+        Hello Student
+      </>
     )
   }
 }

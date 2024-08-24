@@ -103,7 +103,7 @@ const Notifications = () => {
                 </div>
             }
             {
-                userType !== 'admin' && <div>Student Notifications</div>
+                userType !== 'admin' && <></>
             }
 
         </>
