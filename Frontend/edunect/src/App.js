@@ -10,6 +10,7 @@ import Documents from './views/Documents.jsx';
 import Student from './views/components/Student.jsx';
 import Footer from './views/components/Footer.jsx';
 import Notifications from './views/Notifications.jsx';
+import Attendance from './views/Attendance.jsx';
 function App() {
   return (
     <div>
@@ -18,7 +19,7 @@ function App() {
           <Router>
             <Routes>
               <Route path="/" element={<Login />} />
-
+              <Route path="/attendance" element={<Attendance/>}/>
               {/* Private routes */}
               <Route element={<PrivateRoute />}>
                 <Route path="/home" element={<Home />} />
