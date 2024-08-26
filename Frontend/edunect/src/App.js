@@ -7,7 +7,7 @@ import { LoginProvider } from './required_context/LoginContext.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import PrivateRoute from './views/components/PrivateRoute.jsx';
 import Documents from './views/Documents.jsx';
-import Student from './views/components/Student.jsx';
+import Student from './views/Student.jsx';
 import Footer from './views/components/Footer.jsx';
 import Notifications from './views/Notifications.jsx';
 import Attendance from './views/Attendance.jsx';
