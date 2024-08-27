@@ -21,3 +21,5 @@
 /Frontend/edunect/npm-debug.log*
 /Frontend/edunect/yarn-debug.log*
 /Frontend/edunect/yarn-error.log*
+
+/env

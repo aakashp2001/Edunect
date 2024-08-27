@@ -143,6 +143,7 @@ def password_change_view(request):
             user = authenticate(username=username, password=current_password)
             if user is not None:
                 user.set_password(new_password)
+                user.first_time = False
                 user.save()
 
                 return JsonResponse({'resp': 1, 'message': 'Password changed successfully!'})
