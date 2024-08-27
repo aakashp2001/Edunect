@@ -9,6 +9,7 @@ import PrivateRoute from './views/components/PrivateRoute.jsx';
 import Documents from './views/Documents.jsx';
 import Student from './views/Student.jsx';
 import Footer from './views/components/Footer.jsx';
+import PdfViewer from './views/Temp.jsx';
 import Notifications from './views/Notifications.jsx';
 import Attendance from './views/Attendance.jsx';
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/attendance" element={<Attendance/>}/>
+              <Route path='/temp' element={<PdfViewer />}/>
               {/* Private routes */}
               <Route element={<PrivateRoute />}>
                 <Route path="/home" element={<Home />} />
