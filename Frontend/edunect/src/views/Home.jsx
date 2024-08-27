@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useLogin } from "../required_context/LoginContext"
 import AdminNav from './components/AdminNav';
 import axios from 'axios';
+import ChangePassword from './ChangePassword';
 function Home() {
 
-  const { isLoggedIn, userType, username } = useLogin()
+  const { isLoggedIn, userType, username, firstTime } = useLogin()
   const [notificationArr, setNotificationArr] = useState([])
   var arry = [];
   
@@ -153,7 +154,10 @@ function Home() {
     return (
       <>
         <AdminNav />
-        Hello Student
+        {firstTime?<ChangePassword />:
+        <div>
+          <p>welcome Student</p>
+        </div>}
       </>
     )
   }

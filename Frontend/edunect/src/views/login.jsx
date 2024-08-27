@@ -30,7 +30,7 @@ function Login() {
                 console.log(data);
                 if (data.resp === 1) {
                     // user found: loging in
-                    login(data.user_type, username)
+                    login(data.user_type, username, data.first_time)
                     return navigate("/home")
                 } else {
                     // user/password failed to match

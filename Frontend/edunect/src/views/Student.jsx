@@ -9,7 +9,7 @@ function Student() {
     const [page, setPage] = useState(1);
     const [pageArray, setPageArray] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
-    const [searchMessage,setSeearchMessage] = useState("check");
+    const [searchMessage,setSeearchMessage] = useState("");
     const PAGE_SIZE = 10
     const paginate = (array, page_size, page_number) => {
         return array.slice((page_number - 1) * page_size, page_number * page_size);
