@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group, Permission
-from .models import CustomUser
+from .models import CustomUser,Notification
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -34,4 +34,6 @@ class CustomUserAdmin(UserAdmin):
             except Group.DoesNotExist:
                 self.message_user(request, "The group 'Students' does not exist. Please create it.", level='error')
 
+admin.site.register(Notification)
 admin.site.register(CustomUser, CustomUserAdmin)
+

@@ -158,7 +158,8 @@ def get_student_data(request):
     if request.method == 'POST':
         try:
             user = CustomUser.objects.filter(user_type='student')
-            return JsonResponse({'resp': 1, 'message': 'Student data is sent.','data':user})
+            userList = list(user.values())
+            return JsonResponse({'resp': 1, 'message': 'Student data is sent.','data':userList})
         except json.JSONDecodeError:
             return JsonResponse({'resp': 0, 'message': 'Invalid JSON.'})
     else:
@@ -196,8 +197,7 @@ def add_notification_view(request):
                 date=date
             )
             notification.save()
-
-            return JsonResponse({'resp': 0,'message': 'Notification added successfully'})
+            return JsonResponse({'resp': 1,'message': 'Notification added successfully'})
         except Exception as e:
             return JsonResponse({'resp': 0,'message': str(e)})
     else:

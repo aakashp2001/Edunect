@@ -42,4 +42,4 @@ class Notification(models.Model):
         db_table = 'Notification'
     
     def __str__(self):
-        return self.type
+        return self.notification_head
