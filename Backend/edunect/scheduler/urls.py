@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     # path('',views.upload_timetable)
-    path('upload_timetable',views.upload_timetable)
+    path('upload_timetable',views.upload_timetable),
+    path('get_time_table',views.get_time_table)
 ]
