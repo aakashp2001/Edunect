@@ -165,7 +165,18 @@ def get_student_data(request):
             return JsonResponse({'resp': 0, 'message': 'Invalid JSON.'})
     else:
         return JsonResponse({'resp': 0, 'message': 'Invalid HTTP method. Only POST is allowed.'})
-            
+
+@csrf_exempt
+def get_profile(request,username):
+    if request.method == 'GET':
+        try:
+            user = CustomUser.objects.filter(user_type='student',username=username)
+            userList = list(user.values())
+            return JsonResponse({'resp': 1, 'message': 'Student data is sent.','data':userList})
+        except json.JSONDecodeError:
+            return JsonResponse({'resp': 0, 'message': 'Invalid JSON.'})
+    else:
+        return JsonResponse({'resp': 0, 'message': 'Invalid HTTP method. Only POST is allowed.'})        
 
 def get_notifications_view(request):
     if request.method == 'GET':

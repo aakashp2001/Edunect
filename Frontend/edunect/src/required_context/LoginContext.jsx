@@ -43,6 +43,7 @@ export function LoginProvider({ children }) {
   }
 
   const logout = () => {
+    localStorage.removeItem('profileData'); // Clear profile data from localStorage
     setIsLoggedIn(false);
     setUserType(null);
     setUsername('');

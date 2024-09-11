@@ -8,5 +8,7 @@ urlpatterns = [
     path('passChange',views.password_change_view),
     path('getNotification',views.get_notifications_view),
     path('addNotification', views.add_notification_view),
-    path('getStudents',views.get_student_data)
+    path('getStudents',views.get_student_data),
+    path('getProfile/<str:username>',views.get_profile),
+
 ]

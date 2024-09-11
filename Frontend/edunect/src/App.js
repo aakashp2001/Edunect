@@ -12,6 +12,7 @@ import Footer from './views/components/Footer.jsx';
 import PdfViewer from './views/Temp.jsx';
 import Notifications from './views/Notifications.jsx';
 import Attendance from './views/Attendance.jsx';
+import TimeTable from './views/TimeTable.jsx';
 function App() {
   return (
     <div>
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/document" element={<Documents/>}/>
                 <Route path='/students' element={<Student/>}/>
                 <Route path='/notifications' element={<Notifications/>}/>
+                <Route path='/timetable' element={<TimeTable/>}/> 
               </Route>
 
               <Route path="*" element={<NotFound />} />
