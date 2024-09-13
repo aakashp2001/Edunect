@@ -30,33 +30,33 @@ function AdminNav() {
                         </svg>
                     </button>
                     <div className="hidden w-full lg:block lg:w-auto" id="navbar-default">
-                        <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-100 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  md:w-100">
+                        <ul className="font-medium flex flex-col p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-100 lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 lg:border-0  lg:w-100">
                             <li>
-                                <Link to='/home' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Home</Link>
+                                <Link to='/home' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Home</Link>
                             </li>
                             <li>
-                                <Link to='#' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Attendence</Link>
+                                <Link to='#' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Attendence</Link>
                             </li>
                             <li>
-                                <Link to='/notifications' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Notification</Link>
-                            </li>
-                            {(userType==='admin') &&<li>
-                                <Link to='/signup' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>SignUp</Link>
-                            </li>}
-                            <li>
-                                <Link to='#' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Result</Link>
+                                <Link to='/notifications' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Notification</Link>
                             </li>
                             {(userType==='admin') &&<li>
-                                <Link to='/students' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Students</Link>
+                                <Link to='/signup' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>SignUp</Link>
                             </li>}
                             <li>
-                                <Link to="/timetable" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Timetable</Link>
+                                <Link to='#' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Result</Link>
+                            </li>
+                            {(userType==='admin') &&<li>
+                                <Link to='/students' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Students</Link>
+                            </li>}
+                            <li>
+                                <Link to="/timetable" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0">Timetable</Link>
                             </li>
                             <li>
-                                <Link to='/document' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0" aria-current='page'>Documents</Link>
+                                <Link to='/document' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Documents</Link>
                             </li>
                             <li>
-                                <Link to='#' className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" aria-current='page' onClick={performLogout}>Logout</Link>
+                                <Link to='#' className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2" aria-current='page' onClick={performLogout}>Logout</Link>
                             </li>
                             
                         </ul>
