@@ -9,6 +9,7 @@ function Register() {
   const [fileState, setFileState] = useState()
   const [defaultPassword, setDefaultPassword] = useState()
   const [loading, setLoading] = useState(false)
+  const [sem, setSem] = useState(0)
   const [message, setMessage] = useState("")
   const signUp = (e) => {
     e.preventDefault();
@@ -16,6 +17,7 @@ function Register() {
     const formData = new FormData();
     formData.append('file', fileState);
     formData.append('password', defaultPassword);
+    formData.append('sem',sem);
     setLoading(true)
 
     fetch('http://127.0.0.1:8000/account/signup', {
@@ -25,18 +27,18 @@ function Register() {
       .then(response => response.json())
       .then(data => {
         console.log(data)
-        if(data.message){
+        if (data.message) {
           setMessage(data.message)
-        }if(data.error){
+        } if (data.error) {
           setMessage(data.error)
         }
       })
       .catch(error => {
-          setMessage(error.error)
+        setMessage(error.error)
         console.log(loading)
 
       })
-      .finally(()=>{
+      .finally(() => {
         setLoading(false)
       })
     console.log("sign up attempt complete");
@@ -46,7 +48,7 @@ function Register() {
   }
   return (
     <div>
-  <AdminNav/>
+      <AdminNav />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -79,14 +81,19 @@ function Register() {
                 </label>
                 <input type="text" name="defaultPassword" id="defaultPassword" onChange={(e) => { setDefaultPassword(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 />
+                <label htmlFor="sem" className="block text-sm text-gray-700 mt-3 font-bold">
+                  Semester
+                </label>
+                <input type="number" name="sem" id="sem" onChange={(e) => { setSem(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                />
               </div>
               <div>
                 <button type="submit" className="group relative w-full flex justify-center my-7 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-800 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" >
                   Submit
                 </button>
                 <div id='response'>
-                    {loading&&<LoadingSpinner/>}
-                    {message}
+                  {loading && <LoadingSpinner />}
+                  {message}
                 </div>
               </div>
             </div>

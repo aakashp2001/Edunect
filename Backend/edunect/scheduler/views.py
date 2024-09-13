@@ -65,12 +65,13 @@ def upload_timetable(request):
 def get_time_table(request):
     if request.method == 'POST':
         try:
+            sem = request.POST.get('sem','')
             batch = request.POST.get('batch', '').upper()[0]
             main_batch = request.POST.get('batch', '').upper()
             if not batch:
                 return JsonResponse({'error': 'Batch parameter is missing or empty'})
             
-            timetable = TimeTable.objects.get(branch=batch)
+            timetable = TimeTable.objects.get(branch=batch,sem=sem)
             
             file_content = timetable.file.read().decode('utf-8')
             df = pd.read_csv(StringIO(file_content))

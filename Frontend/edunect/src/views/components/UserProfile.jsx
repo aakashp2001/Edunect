@@ -57,10 +57,11 @@ function UserProfile() {
                     <p><span className="font-bold">Full Name:</span> {profileData.full_name || 'N/A'}</p>
                     <p><span className="font-bold">Email:</span> {profileData.email}</p>
                     <p><span className="font-bold">Branch:</span> {profileData.branch}</p>
+                    <p><span className="font-bold">Sem:</span> {profileData.sem}</p>
                     <p><span className="font-bold">Batch:</span> {profileData.batch}</p>
                     <p><span className="font-bold">Roll No:</span> {profileData.roll_no}</p>
-                    <p><span className="font-bold">User Type:</span> {profileData.user_type}</p>
-                    <p><span className="font-bold">Active:</span> {profileData.is_active ? 'Yes' : 'No'}</p>
+                    {/* <p><span className="font-bold">User Type:</span> {profileData.user_type}</p> */}
+                    {/* <p><span className="font-bold">Active:</span> {profileData.is_active ? 'Yes' : 'No'}</p> */}
                     <p><span className="font-bold">Joined:</span> {new Date(profileData.date_joined).toLocaleDateString()}</p>
                 </div>
                 <button 

@@ -9,9 +9,31 @@ function TimeTable() {
     const [errorMessage, setErrorMessage] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
     const { userType } = useLogin()
-    
+    const [timetable,setTimeTable] = useState({})
+    useEffect(() => {
+        axios.post(`http://127.0.0.1:8000/scheduler/get_time_table`,{
+            // "sem": sem,
+            // "branch":
+        })
+            .then(response => {
+                const arr = response.data.data;
+                setTimeTable(arr);
+                console.log(timetable)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, []);
 
-    if (userType === 'admin') {
+    if (userType === 'student') {
+        return (
+            <>
+                <AdminNav></AdminNav>
+
+            </>
+        );
+        
+    } else {
         async function handleFileChange(e) {
             await setFileState(e.target.files[0])
             // console.log(e.target.files);
@@ -94,14 +116,7 @@ function TimeTable() {
                 </div>
             </div>
         )
-    } else {
         
-        return (
-            <>
-                <AdminNav></AdminNav>
-
-            </>
-        );
     }
 
 }

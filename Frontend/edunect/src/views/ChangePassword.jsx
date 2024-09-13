@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useLogin } from '../required_context/LoginContext'
 function ChangePassword() {
-    const {username,updateFirstTime} = useLogin()
+    const {username,updateFirstTime,logout} = useLogin()
     const [password,setPassword] = useState("")
     const [currentPassword,setCurrentPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [errorMessage,setErrorMessage] = useState('')
+    
     function CheckPassword(password) {
         // Define regex parts for different criteria
         var hasDigit = /\d/;                  // Must contain at least one digit
@@ -65,6 +66,7 @@ function ChangePassword() {
                     setErrorMessage(data.message)
                 }else{
                     updateFirstTime(false)
+                    logout()
                 }
             })
         }

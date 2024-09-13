@@ -155,7 +155,7 @@ function Home() {
     return (
       <>
         <AdminNav />
-        {firstTime === 'true' ?
+        {firstTime === true ?
           <ChangePassword /> :
           (
             <div>

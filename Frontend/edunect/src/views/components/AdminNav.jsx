@@ -3,7 +3,7 @@ import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
 import { useLogin } from '../../required_context/LoginContext.jsx'
 function AdminNav() {
-    const { logout,userType } = useLogin()
+    const { logout, userType } = useLogin()
 
     const toggleNav = () => {
         const menu = document.getElementById('navbar-default');
@@ -13,10 +13,35 @@ function AdminNav() {
     const performLogout = () => {
         logout()
     }
+    const navItems = {
+        student: [
+            { label: 'Home', path: '/home' },
+            { label: 'Notification', path: '/notification' },
+            { label: 'Profile', path: '/profile' },
+            { label: 'timetable', path: '/timetable' },
+            { label: 'Document', path: '/document' },
+            { label: 'Result', path: '#' },
+            { label: 'Attendence', path: '#' }
+            
+        ],
+        admin: [
+            { label: 'Home', path: '/home' },
+            { label: 'Notification', path: '/notification' },
+            { label: 'SignUp', path: '/signup' },
+            { label: 'Students', path: '/studnet' },
+            { label: 'timetable', path: '/timetable' },
+            { label: 'Document', path: '/document' },
+            { label: 'Result', path: '#' },
+            { label: 'Attendence', path: '#' },
+
+        ]
+    };
+    console.log(userType)
+    const currentNavItems = navItems[userType] || [];
 
     return (
-        
-        < div className = 'sticky top-0 z-50' >
+
+        < div className='sticky top-0 z-50' >
 
             <nav className='bg-gray-100 shadow'>
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -31,8 +56,17 @@ function AdminNav() {
                     </button>
                     <div className="hidden w-full lg:block lg:w-auto" id="navbar-default">
                         <ul className="font-medium flex flex-col p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-100 lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 lg:border-0  lg:w-100">
-                            <li>
-                                <Link to='/home' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Home</Link>
+                            {currentNavItems.map((item) => (
+                                <li><Link
+                                    key={item.path}
+                                    to={item.path}
+                                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0"
+                                >
+                                    {item.label}
+                                </Link></li>
+                            ))}
+                            {/* <li>
+                                <Link to='/home' className="" aria-current='page'>Home</Link>
                             </li>
                             <li>
                                 <Link to='#' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Attendence</Link>
@@ -40,13 +74,13 @@ function AdminNav() {
                             <li>
                                 <Link to='/notifications' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Notification</Link>
                             </li>
-                            {(userType==='admin') &&<li>
+                            {(userType === 'admin') && <li>
                                 <Link to='/signup' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>SignUp</Link>
                             </li>}
                             <li>
                                 <Link to='#' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Result</Link>
                             </li>
-                            {(userType==='admin') &&<li>
+                            {(userType === 'admin') && <li>
                                 <Link to='/students' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Students</Link>
                             </li>}
                             <li>
@@ -55,15 +89,15 @@ function AdminNav() {
                             <li>
                                 <Link to='/document' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Documents</Link>
                             </li>
+                            */}
                             <li>
                                 <Link to='#' className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2" aria-current='page' onClick={performLogout}>Logout</Link>
                             </li>
-                            
                         </ul>
                     </div>
                 </div>
             </nav>
-
+            
         </div >
     )
 }
