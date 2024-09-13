@@ -9,7 +9,7 @@ class CustomUser(AbstractUser):
     branch = models.CharField(max_length=20, blank=True, null=True)
     batch = models.CharField(max_length=5, blank=True, null=True)
     roll_no = models.CharField(max_length=5, blank=True, null=True)
-    
+    sem = models.CharField(max_length=2,null=True,blank=True)
     class Meta:
         permissions = [
             ("can_view_dashboard", "Can view dashboard"),

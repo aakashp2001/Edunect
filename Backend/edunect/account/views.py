@@ -50,6 +50,7 @@ def signup_view(request):
     if request.method == 'POST':
         if 'file' in request.FILES:
             uploaded_file = request.FILES['file']
+            sem = request.POST.get('sem')
             password = request.POST.get('password', 'defaultpassword') 
             
             try:
@@ -112,6 +113,7 @@ def signup_view(request):
                             username=user_data['username'],
                             password=user_data['password'],
                             email=user_data['email'],
+                            sem=sem,
                             full_name=user_data['full_name'],
                             user_type=user_data.get('user_type', 'student'),
                             branch=user_data.get('branch', ''),
