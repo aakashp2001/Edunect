@@ -1,24 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { useLogin } from "../required_context/LoginContext"
-import Navigation from './components/Navigation'
 import axios from 'axios';
 import ChangePassword from './ChangePassword';
-import UserProfile from './components/UserProfile';
 function Home() {
 
   const { isLoggedIn, userType, username, firstTime } = useLogin()
   const [notificationArr, setNotificationArr] = useState([])
   var arry = [];
 
-  const [name,setName] = useState('')
-  const [profileData, setProfileData] = useState({'full_name':''})
+  const [name, setName] = useState('')
 
-  // setNotificationArr(arr)
   useEffect(() => {
     if (!userType) {
-      window.location.reload()
+      window.location.reload();
     }
-    axios.get('http://127.0.0.1:8000/account/getNotification')
+
+    // Retrieve user data from localStorage
+    const user = localStorage.getItem('profileData');
+    console.log('Retrieved user data from localStorage:', user);
+
+    if (user) {
+      try {
+        const userObj = JSON.parse(user);
+        setName(userObj.full_name || '');
+      } catch (error) {
+        console.error('Failed to parse user data from localStorage:', error);
+      }
+    } else {
+      console.warn('No user data found in localStorage');
+      window.location.reload();
+    }
+
+   axios.get('http://127.0.0.1:8000/account/getNotification')
       .then((response) => {
         const arr = (response.data.data);
 
@@ -30,21 +43,13 @@ function Home() {
         //   console.log(arr[i]);
         // }
         setNotificationArr(arr);
-        
-      }).catch((err) => { console.error(err) });
-      console.log(JSON.parse(localStorage.getItem('profileData')));
-      if(localStorage.getItem('profileData')){
-        setProfileData({'full_name':JSON.parse(localStorage.getItem('profileData'))['full_name']})
-        
-      }
-      
-  }, [])
-  
 
-  useEffect(()=>{
-    setName(profileData.full_name)
-  },[profileData])
-  
+      }).catch((err) => { console.error(err) });
+
+    
+  }, [])
+
+
   const contacts = [{
     "Activity": "Internal Quality Assurance Cell",
     "Coordinator": "Mr. Rohit Patel",
@@ -101,11 +106,6 @@ function Home() {
     "Contact": 9662304452
 
   }]
-  const notifications = [
-    { title: "System Maintenance", message: "Scheduled system maintenance on August 25, 2024.", date: "August 21, 2024" },
-    { title: "New Policy Update", message: "New student policy updates have been published.", date: "August 20, 2024" },
-    { title: "Campus Event", message: "Join us for the campus clean-up day this Friday.", date: "August 19, 2024" },
-  ];
   if (userType === 'admin') {
     return (
       <div>
@@ -177,9 +177,8 @@ function Home() {
                   <div className='flex flex-col space-y-6 flex-1'>
                     <div className="flex-1 bg-white flex flex-col items-center justify-center text-center rounded-lg shadow-md">
                       <h1 className='px-6 py-3 mt-6 text-4xl font-extrabold leading-none tracking-tight'>
-                        Welcome, {username}!
-
-                      </h1>
+                        Welcome, <br/> {(name || 'User')}!
+                       </h1>
                       <p className='px-6 mb-6'>This is the home page.</p>
                     </div>
                     <div className="flex-1 bg-white p-6 rounded-lg shadow-md">
