@@ -2,8 +2,8 @@ import React from 'react'
 import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
 import { useLogin } from '../../required_context/LoginContext.jsx'
-import UserProfile from './UserProfile';
-function AdminNav() {
+import UserProfile from './UserProfile.jsx';
+function Navigation() {
     const { logout, userType, isLoggedIn } = useLogin()
 
     const toggleNav = () => {
@@ -21,18 +21,18 @@ function AdminNav() {
             { label: 'Timetable', path: '/timetable' },
             { label: 'Document', path: '/document' },
             { label: 'Result', path: '#' },
-            { label: 'Attendence', path: '#' }
+            { label: 'Attendence', path: '/attendance' }
             
         ],
         admin: [
             { label: 'Home', path: '/home' },
             { label: 'Notification', path: '/notifications' },
             { label: 'SignUp', path: '/signup' },
-            { label: 'Students', path: '/student' },
+            { label: 'Students', path: '/students' },
             { label: 'Timetable', path: '/timetable' },
             { label: 'Document', path: '/document' },
             { label: 'Result', path: '#' },
-            { label: 'Attendence', path: '#' },
+            { label: 'Attendence', path: '/attendance' },
 
         ]
     };
@@ -105,4 +105,4 @@ function AdminNav() {
     )
 }
 
-export default AdminNav
+export default Navigation

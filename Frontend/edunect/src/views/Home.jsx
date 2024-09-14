@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLogin } from "../required_context/LoginContext"
-import AdminNav from './components/AdminNav';
+import Navigation from './components/Navigation'
 import axios from 'axios';
 import ChangePassword from './ChangePassword';
 import UserProfile from './components/UserProfile';

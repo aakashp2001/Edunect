@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AdminNav from './components/AdminNav';
+import Navigation from './components/Navigation'
 import { useLogin } from '../required_context/LoginContext';
 import NotificationItem from './components/Notification_Item';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -120,7 +120,6 @@ const Notifications = () => {
 
     return (
         <>
-            {/* <AdminNav /> */}
             <div className="max-w-md mx-auto p-6 mt-4 bg-white shadow-md rounded-lg">
                 <h2 className="text-xl font-bold mb-4">Create Notification</h2>
                 <form className="space-y-4" onSubmit={handleSubmit}>

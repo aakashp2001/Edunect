@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminNav from './components/AdminNav';
+import Navigation from './components/Navigation'
 import axios from 'axios';
 import PaginationPageBox from './components/PaginationPageBox';
 import StudentComponent from './components/studentComponent';
@@ -66,7 +66,6 @@ function Student() {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <AdminNav />
             <div className="p-4 bg-blue-100 shadow-md">
                 <div className="flex justify-center">
                     <div className="relative w-full max-w-lg">

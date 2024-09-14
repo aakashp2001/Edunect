@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import AdminNav from './components/AdminNav'
+import Navigation from './components/Navigation'
 import axios from 'axios'
 import { useLogin } from '../required_context/LoginContext'
 function TimeTable() {
@@ -25,42 +25,41 @@ function TimeTable() {
     // console.log('ss',JSON.parse(localStorage.getItem('profileData')))
     // console.log(JSON.parse(localStorage.getItem('profileData')).batch)
     useEffect(() => {
-        const sem = JSON.parse(localStorage.getItem('profileData')).sem
-        const batch = JSON.parse(localStorage.getItem('profileData')).batch
-        const formData = new FormData()
-        formData.append('sem', sem)
-        formData.append('batch', batch)
-        axios({
-            url: 'http://127.0.0.1:8000/scheduler/get_time_table', method: 'post',
-            data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
-        })
-            .then(response => {
-                const arr = JSON.parse(response.data.data);
-                // setTimeTable(JSON.parse(arr));
-
-                setClassName(Object.keys(arr['Class Name']).map(key => arr['Class Name'][key]))
-                setDay(Object.keys(arr['DAY']).map(key => arr['DAY'][key]))
-                setBatch(Object.keys(arr[`Batch ${batch}`]).map(key => arr[`Batch ${batch}`][key]))
-                setLength(Object.keys(arr['Class Name']).length)
-
-                // console.log('ss', response.data)
+        if (userType === 'student') {
+            const sem = JSON.parse(localStorage.getItem('profileData')).sem
+            const batch = JSON.parse(localStorage.getItem('profileData')).batch
+            const formData = new FormData()
+            formData.append('sem', sem)
+            formData.append('batch', batch)
+            axios({
+                url: 'http://127.0.0.1:8000/scheduler/get_time_table', method: 'post',
+                data: formData,
+                headers: { "Content-Type": "multipart/form-data" },
             })
-            .catch(error => {
-                console.log(error);
-            });
+                .then(response => {
+                    const arr = JSON.parse(response.data.data);
+                    // setTimeTable(JSON.parse(arr));
+
+                    setClassName(Object.keys(arr['Class Name']).map(key => arr['Class Name'][key]))
+                    setDay(Object.keys(arr['DAY']).map(key => arr['DAY'][key]))
+                    setBatch(Object.keys(arr[`Batch ${batch}`]).map(key => arr[`Batch ${batch}`][key]))
+                    setLength(Object.keys(arr['Class Name']).length)
+
+                    // console.log('ss', response.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
     }, []);
 
-    const handleDayChange = (e) => {
-
-    }
 
     const [selectedDay, setSelectedDay] = useState();
     const [lengthArr, setLengthArr] = useState([]);
     if (userType === 'student') {
         const handleDayChange = (e) => {
             setSelectedDay(e.target.value);
-            
+
             if (e.target.value === "MON") {
                 setLengthArr(Array.from({ length: 6 }, (_, i) => i))  // Indexes 0 to 5
             } else if (e.target.value === "TUE") {
@@ -108,11 +107,11 @@ function TimeTable() {
                                 {lengthArr.map((i) => (
                                     <tr key={i} className="bg-white">
                                         {
-                                                <>
-                                                    <td className="px-6 py-4">{day[i]}</td>
-                                                    <td className="px-6 py-4">{className[i]}</td>
-                                                    <td className="px-6 py-4">{batch[i]}</td>
-                                                </>
+                                            <>
+                                                <td className="px-6 py-4">{day[i]}</td>
+                                                <td className="px-6 py-4">{className[i]}</td>
+                                                <td className="px-6 py-4">{batch[i]}</td>
+                                            </>
                                         }
                                     </tr>
                                 ))}
@@ -183,7 +182,6 @@ function TimeTable() {
         }
         return (
             <div>
-                <AdminNav />
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-gray-100 py-8 px-4 shadow-lg rounded-lg sm:round-lg sm:px-10">
                         <form method="POST" className="space-y-6" onSubmit={handleSubmit}>

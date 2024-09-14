@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useLogin } from '../required_context/LoginContext'
 import pdfFile from './TOC_Practice Book_2024.pdf'
-import AdminNav from './components/AdminNav'
+import Navigation from './components/Navigation'
 function Documents() {
     const [fileState, setFileState] = useState()
     const [title, setTitle] = useState()
@@ -10,7 +10,6 @@ function Documents() {
     }
     return (
         <div>
-            <AdminNav />
 
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

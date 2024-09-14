@@ -12,6 +12,8 @@ function UserProfile() {
             return null;
         }
     });
+    const [profileButtonVal,setProfileButtonVal] = useState('Show Profile')
+
     const [errorMessage, setErrorMessage] = useState(null);
     const { username } = useLogin()
     // Fetch profile data if it's not available in localStorage
@@ -48,8 +50,24 @@ function UserProfile() {
         return <div>Loading...</div>;
     }
 
+
     return (
-        <div className=''>
+        <div>
+            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={
+                ()=>{
+                    if (profileButtonVal==='Show Profile') {
+                        setProfileButtonVal('Hide Profile');
+                        document.getElementById('default-sidebar').style.transform = 'translateX(0%)';
+
+                    }
+                    else {
+                        document.getElementById('default-sidebar').style.transform = 'translateX(-100%)';
+                        setProfileButtonVal('Show Profile');
+                    }
+
+                }
+            }>{profileButtonVal}</button>
+
             <aside id="default-sidebar" className="fixed top-50 left-0 z-0 h-screen transition-transform -translate-x-full lg:translate-x-0 w-96" aria-label="Sidebar">
                 <div className="h-full px-3 py-4 overflow-y-auto z-0">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
