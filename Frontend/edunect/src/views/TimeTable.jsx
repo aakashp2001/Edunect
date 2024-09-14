@@ -77,8 +77,7 @@ function TimeTable() {
         }
         return (
             <>
-                <div className='p-4 lg:ml-96 z-10'>
-
+                <div className='p-4 z-10'>
                     <div className="my-4">
                         <label htmlFor="day-select" className="block text-sm font-medium text-gray-700">Select Day</label>
                         <select

@@ -18,30 +18,30 @@ import UserProfile from './views/components/UserProfile.jsx';
 function App() {
   return (
     <div>
-    
-        <LoginProvider>
-          <Router>
-            <Navigation/>
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/attendance" element={<Attendance/>}/>
-              <Route path='/temp' element={<PdfViewer />}/>
-              {/* Private routes */}
-              <Route element={<PrivateRoute />}>
-                <Route path="/home" element={<Home />} />
-                <Route path="/signup" element={<Register />} />
-                <Route path="/document" element={<Documents/>}/>
-                <Route path='/students' element={<Student/>}/>
-                <Route path='/notifications' element={<Notifications/>}/>
-                <Route path='/timetable' element={<TimeTable/>}/> 
-              </Route>
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Router>
-          {/* <Footer /> */}
-        </LoginProvider>
-      </div>
+      <LoginProvider>
+        <Router>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path='/temp' element={<PdfViewer />} />
+            {/* Private routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/signup" element={<Register />} />
+              <Route path="/attendance" element={<Attendance />} />
+              <Route path="/document" element={<Documents />} />
+              <Route path='/students' element={<Student />} />
+              <Route path='/notifications' element={<Notifications />} />
+              <Route path='/timetable' element={<TimeTable />} />
+            </Route>
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+        {/* <Footer /> */}
+      </LoginProvider>
+    </div>
 
   );
 }

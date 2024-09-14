@@ -5,6 +5,13 @@ import Navigation from './components/Navigation'
 function Documents() {
     const [fileState, setFileState] = useState()
     const [title, setTitle] = useState()
+    const [pdfFiles, setPdfFiles] = useState([pdfFile,pdfFile])
+    const [openIndex, setOpenIndex] = useState(-1);
+
+    const toggleAccordion = (index) => {
+        // If the clicked accordion is already open, close it; otherwise, open it
+        setOpenIndex(openIndex === index ? -1 : index);
+    };
     const handleFileChange = (e) => {
         setFileState(e.target.files[0])
     }
@@ -47,8 +54,47 @@ function Documents() {
                     </form>
                 </div>
             </div>
-
             <div className="pdf-viewer">
+            <div className="m-2 space-y-2">
+                {pdfFiles.map((pdfFile, index) => (
+                    <div
+                        key={index}
+                        className="flex flex-col gap-2 rounded-lg p-5 border border-black"
+                        onClick={() => toggleAccordion(index)}
+                        tabIndex="2"
+                    >
+                        <div className="flex cursor-pointer items-center justify-between">
+                            <span> Time Table {index + 1} </span>
+                            <i
+                                className={`h-2 w-3 transition-all duration-500 ${
+                                    openIndex === index ? '-rotate-180' : 'rotate-0'
+                                } bi bi-chevron-down`}
+                                alt="Drop Down icon"
+                            />
+                        </div>
+                        <div
+                            className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                                openIndex === index ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+                            }`}
+                        >
+                            <object
+                                style={{ width: '100%' }}
+                                data={pdfFile}
+                                type="application/pdf"
+                                width="100%"
+                                height="600px"
+                            >
+                                <p>
+                                    Your browser does not support PDFs.{' '}
+                                    <a href={pdfFile}>Download the PDF</a>.
+                                </p>
+                            </object>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+            {/* <div className="pdf-viewer">
 
                 <div className="m-2 space-y-2">
 
@@ -100,7 +146,7 @@ function Documents() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -89,6 +89,9 @@ function Navigation() {
                                 <Link to='/document' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Documents</Link>
                             </li>
                             */}
+                            {(userType === 'student')&& (
+                                 <UserProfile/>
+                            ) }
                             <li>
                                 <Link to='#' className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2" aria-current='page' onClick={performLogout}>{isLoggedIn &&  'Logout' || 'Login'}</Link>
 
@@ -97,10 +100,6 @@ function Navigation() {
                     </div>
                 </div>
             </nav>
-            {userType === 'student' && 
-            <div>
-                <UserProfile/>
-            </div>}
         </div >
     )
 }
