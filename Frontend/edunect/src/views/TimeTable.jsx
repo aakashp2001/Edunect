@@ -3,6 +3,10 @@ import AdminNav from './components/AdminNav'
 import axios from 'axios'
 import { useLogin } from '../required_context/LoginContext'
 function TimeTable() {
+
+
+
+
     const [fileState, setFileState] = useState()
     const [sem, setSem] = useState()
     const [branch, setBranch] = useState()
@@ -10,6 +14,14 @@ function TimeTable() {
     const [successMessage, setSuccessMessage] = useState('')
     const { userType } = useLogin()
     const [timetable, setTimeTable] = useState({})
+
+    const [day, setDay] = useState()
+    const [batch, setBatch] = useState()
+    const [length, setLength] = useState()
+    const [className, setClassName] = useState()
+
+    const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+
     // console.log('ss',JSON.parse(localStorage.getItem('profileData')))
     // console.log(JSON.parse(localStorage.getItem('profileData')).batch)
     useEffect(() => {
@@ -24,19 +36,103 @@ function TimeTable() {
             headers: { "Content-Type": "multipart/form-data" },
         })
             .then(response => {
-                const arr = response.data.data;
-                setTimeTable(arr);
-                console.log('ss', response.data)
+                const arr = JSON.parse(response.data.data);
+                // setTimeTable(JSON.parse(arr));
+
+                setClassName(Object.keys(arr['Class Name']).map(key => arr['Class Name'][key]))
+                setDay(Object.keys(arr['DAY']).map(key => arr['DAY'][key]))
+                setBatch(Object.keys(arr[`Batch ${batch}`]).map(key => arr[`Batch ${batch}`][key]))
+                setLength(Object.keys(arr['Class Name']).length)
+
+                // console.log('ss', response.data)
             })
             .catch(error => {
                 console.log(error);
             });
     }, []);
 
+    const handleDayChange = (e) => {
+
+    }
+
+    const [selectedDay, setSelectedDay] = useState();
+    const [lengthArr, setLengthArr] = useState([]);
     if (userType === 'student') {
+        const handleDayChange = (e) => {
+            setSelectedDay(e.target.value);
+            
+            if (e.target.value === "MON") {
+                setLengthArr(Array.from({ length: 6 }, (_, i) => i))  // Indexes 0 to 5
+            } else if (e.target.value === "TUE") {
+                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 6))  // Indexes 6 to 11
+            } else if (e.target.value === "WED") {
+                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 12)) // Indexes 12 to 17
+            } else if (e.target.value === "THU") {
+                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 18))  // Indexes 18 to 23
+            } else if (e.target.value === "FRI") {
+                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 24))  // Indexes 24 to 29
+            } else if (e.target.value === "SAT") {
+                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 30))  // Indexes 30 to 35
+            }
+
+        }
         return (
             <>
+                <div className='p-4 lg:ml-96 z-10'>
 
+                    <div className="my-4">
+                        <label htmlFor="day-select" className="block text-sm font-medium text-gray-700">Select Day</label>
+                        <select
+                            id="day-select"
+                            name="day"
+                            value={selectedDay}
+                            onChange={handleDayChange}
+                            className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        >
+                            <option value="" disabled selected hidden>Select Day</option>
+                            {days.map((day, index) => (
+                                <option key={index} value={day}>{day}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="relative overflow-x-auto">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-200">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3 rounded-s-lg">Day</th>
+                                    <th scope="col" className="px-6 py-3">Time</th>
+                                    <th scope="col" className="px-6 py-3 rounded-e-lg">Subject</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {lengthArr.map((i) => (
+                                    <tr key={i} className="bg-white">
+                                        {
+                                                <>
+                                                    <td className="px-6 py-4">{day[i]}</td>
+                                                    <td className="px-6 py-4">{className[i]}</td>
+                                                    <td className="px-6 py-4">{batch[i]}</td>
+                                                </>
+                                        }
+                                    </tr>
+                                ))}
+                                {/* {Array.from({ length }).map((_, i) => (
+                                    <tr key={i} className="bg-white">
+                                        {
+                                            day[i] === selectedDay && (
+                                                <>
+                                                    <td className="px-6 py-4">{day[i]}</td>
+                                                    <td className="px-6 py-4">{className[i]}</td>
+                                                    <td className="px-6 py-4">{batch[i]}</td>
+                                                </>
+                                            )
+                                        }
+                                    </tr>
+                                ))} */}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </>
         );
 

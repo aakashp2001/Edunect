@@ -49,9 +49,9 @@ function UserProfile() {
     }
 
     return (
-        <div>
-            <aside id="default-sidebar" className="fixed top-50 left-0 z-40 h-screen transition-transform -translate-x-full lg:translate-x-0" style={{width:'75vh'}} aria-label="Sidebar">
-                <div className="h-full px-3 py-4 overflow-y-auto ">
+        <div className=''>
+            <aside id="default-sidebar" className="fixed top-50 left-0 z-0 h-screen transition-transform -translate-x-full lg:translate-x-0 w-96" aria-label="Sidebar">
+                <div className="h-full px-3 py-4 overflow-y-auto z-0">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
                         <h2 className="text-xl font-bold text-blue-600 mb-4">Student Profile</h2>
                         <div className="text-gray-700">

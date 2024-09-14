@@ -18,7 +18,7 @@ function AdminNav() {
         student: [
             { label: 'Home', path: '/home' },
             { label: 'Notification', path: '/notifications' },
-            { label: 'timetable', path: '/timetable' },
+            { label: 'Timetable', path: '/timetable' },
             { label: 'Document', path: '/document' },
             { label: 'Result', path: '#' },
             { label: 'Attendence', path: '#' }
@@ -28,8 +28,8 @@ function AdminNav() {
             { label: 'Home', path: '/home' },
             { label: 'Notification', path: '/notifications' },
             { label: 'SignUp', path: '/signup' },
-            { label: 'Students', path: '/studnet' },
-            { label: 'timetable', path: '/timetable' },
+            { label: 'Students', path: '/student' },
+            { label: 'Timetable', path: '/timetable' },
             { label: 'Document', path: '/document' },
             { label: 'Result', path: '#' },
             { label: 'Attendence', path: '#' },

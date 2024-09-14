@@ -103,7 +103,7 @@ function ChangePassword() {
 
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                Enter New Psasword:
+                                Enter New Password:
                             </label>
                             <div className="mt-1">
                                 <input
