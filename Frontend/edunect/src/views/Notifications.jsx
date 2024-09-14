@@ -87,8 +87,7 @@ const Notifications = () => {
 
     if (userType !== 'admin') {
         return (
-            <div>
-                <AdminNav />
+            <div className='p-4 lg:ml-64'>
                 {loader && <LoadingSpinner />}
                 {notificationArr.length > 0 ? (
                     <>
@@ -100,7 +99,7 @@ const Notifications = () => {
                                 date={notification.date}
                             />
                         ))}
-                        <div className="p-4 flex items-center flex-wrap">
+                        <div className="p-4 flex items-center flex-wrap z-10">
                             <nav className='mx-auto'>
                                 <ul className='inline-flex'>
                                     {pageArray.map((item, index) => (
@@ -121,7 +120,7 @@ const Notifications = () => {
 
     return (
         <>
-            <AdminNav />
+            {/* <AdminNav /> */}
             <div className="max-w-md mx-auto p-6 mt-4 bg-white shadow-md rounded-lg">
                 <h2 className="text-xl font-bold mb-4">Create Notification</h2>
                 <form className="space-y-4" onSubmit={handleSubmit}>

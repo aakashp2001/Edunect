@@ -9,16 +9,24 @@ function TimeTable() {
     const [errorMessage, setErrorMessage] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
     const { userType } = useLogin()
-    const [timetable,setTimeTable] = useState({})
+    const [timetable, setTimeTable] = useState({})
+    // console.log('ss',JSON.parse(localStorage.getItem('profileData')))
+    // console.log(JSON.parse(localStorage.getItem('profileData')).batch)
     useEffect(() => {
-        axios.post(`http://127.0.0.1:8000/scheduler/get_time_table`,{
-            // "sem": sem,
-            // "branch":
+        const sem = JSON.parse(localStorage.getItem('profileData')).sem
+        const batch = JSON.parse(localStorage.getItem('profileData')).batch
+        const formData = new FormData()
+        formData.append('sem', sem)
+        formData.append('batch', batch)
+        axios({
+            url: 'http://127.0.0.1:8000/scheduler/get_time_table', method: 'post',
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" },
         })
             .then(response => {
                 const arr = response.data.data;
                 setTimeTable(arr);
-                console.log(timetable)
+                console.log('ss', response.data)
             })
             .catch(error => {
                 console.log(error);
@@ -28,11 +36,10 @@ function TimeTable() {
     if (userType === 'student') {
         return (
             <>
-                <AdminNav></AdminNav>
 
             </>
         );
-        
+
     } else {
         async function handleFileChange(e) {
             await setFileState(e.target.files[0])
@@ -57,7 +64,7 @@ function TimeTable() {
             //     console.log(res)
             //     if (res.message) {
             //         console.log("less go", res.message);
-                    // setSuccessMessage("TimeTable created Successfully")
+            // setSuccessMessage("TimeTable created Successfully")
             //     } if (res.error) {
             //         setErrorMessage(res.error)
             //     }
@@ -72,11 +79,11 @@ function TimeTable() {
                 data: formData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
-            .then((res)=>{
-                console.log(res);
-                setSuccessMessage("TimeTable created Successfully")
-                
-            })
+                .then((res) => {
+                    console.log(res);
+                    setSuccessMessage("TimeTable created Successfully")
+
+                })
         }
         return (
             <div>
@@ -116,7 +123,7 @@ function TimeTable() {
                 </div>
             </div>
         )
-        
+
     }
 
 }

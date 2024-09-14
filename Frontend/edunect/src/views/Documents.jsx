@@ -51,20 +51,20 @@ function Documents() {
 
             <div className="pdf-viewer">
 
-                <div class="m-2 space-y-2">
+                <div className="m-2 space-y-2">
 
                     <div
-                        class="group flex flex-col gap-2 rounded-lg p-5 border border-black"
+                        className="group flex flex-col gap-2 rounded-lg p-5 border border-black"
                         tabindex="2"
                     >
-                        <div class="flex cursor-pointer items-center justify-between">
+                        <div className="flex cursor-pointer items-center justify-between">
                             <span> Time Table </span>
                             <i
-                                class="h-2 w-3 transition-all duration-500 group-focus:-rotate-180 bi bi-chevron-down" alt="Drop Down icon"
+                                className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180 bi bi-chevron-down" alt="Drop Down icon"
                             />
                         </div>
                         <div
-                            class="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
+                            className="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
                         >
                             <object style={{ width: "100%" }}
                                 data={pdfFile}
@@ -78,17 +78,17 @@ function Documents() {
                     </div>
 
                     <div
-                        class="group flex flex-col gap-2 rounded-lg p-5 border border-black"
+                        className="group flex flex-col gap-2 rounded-lg p-5 border border-black"
                         tabindex="2"
                     >
-                        <div class="flex cursor-pointer items-center justify-between">
+                        <div className="flex cursor-pointer items-center justify-between">
                             <span> Time Table </span>
                             <i
-                                class="h-2 w-3 transition-all duration-500 group-focus:-rotate-180 bi bi-chevron-down" alt="Drop Down icon"
+                                className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180 bi bi-chevron-down" alt="Drop Down icon"
                             />
                         </div>
                         <div
-                            class="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
+                            className="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
                         >
                             <object style={{ width: "100%" }}
                                 data={pdfFile}

@@ -13,12 +13,15 @@ import PdfViewer from './views/Temp.jsx';
 import Notifications from './views/Notifications.jsx';
 import Attendance from './views/Attendance.jsx';
 import TimeTable from './views/TimeTable.jsx';
+import AdminNav from './views/components/AdminNav';
+import UserProfile from './views/components/UserProfile.jsx';
 function App() {
   return (
     <div>
     
         <LoginProvider>
           <Router>
+            <AdminNav/>
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/attendance" element={<Attendance/>}/>

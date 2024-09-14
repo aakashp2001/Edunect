@@ -2,8 +2,9 @@ import React from 'react'
 import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
 import { useLogin } from '../../required_context/LoginContext.jsx'
+import UserProfile from './UserProfile';
 function AdminNav() {
-    const { logout, userType } = useLogin()
+    const { logout, userType, isLoggedIn } = useLogin()
 
     const toggleNav = () => {
         const menu = document.getElementById('navbar-default');
@@ -16,8 +17,7 @@ function AdminNav() {
     const navItems = {
         student: [
             { label: 'Home', path: '/home' },
-            { label: 'Notification', path: '/notification' },
-            { label: 'Profile', path: '/profile' },
+            { label: 'Notification', path: '/notifications' },
             { label: 'timetable', path: '/timetable' },
             { label: 'Document', path: '/document' },
             { label: 'Result', path: '#' },
@@ -26,7 +26,7 @@ function AdminNav() {
         ],
         admin: [
             { label: 'Home', path: '/home' },
-            { label: 'Notification', path: '/notification' },
+            { label: 'Notification', path: '/notifications' },
             { label: 'SignUp', path: '/signup' },
             { label: 'Students', path: '/studnet' },
             { label: 'timetable', path: '/timetable' },
@@ -36,12 +36,11 @@ function AdminNav() {
 
         ]
     };
-    console.log(userType)
     const currentNavItems = navItems[userType] || [];
 
     return (
 
-        < div className='sticky top-0 z-50' >
+        < div className='sticky left-0 top-0 z-50' >
 
             <nav className='bg-gray-100 shadow'>
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -56,8 +55,8 @@ function AdminNav() {
                     </button>
                     <div className="hidden w-full lg:block lg:w-auto" id="navbar-default">
                         <ul className="font-medium flex flex-col p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-100 lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 lg:border-0  lg:w-100">
-                            {currentNavItems.map((item) => (
-                                <li><Link
+                            {currentNavItems.map((item,index) => (
+                                <li key={index}><Link
                                     key={item.path}
                                     to={item.path}
                                     className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0"
@@ -91,13 +90,17 @@ function AdminNav() {
                             </li>
                             */}
                             <li>
-                                <Link to='#' className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2" aria-current='page' onClick={performLogout}>Logout</Link>
+                                <Link to='#' className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2" aria-current='page' onClick={performLogout}>{isLoggedIn &&  'Logout' || 'Login'}</Link>
+
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
-            
+            {userType === 'student' && 
+            <div>
+                <UserProfile/>
+            </div>}
         </div >
     )
 }

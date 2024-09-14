@@ -66,6 +66,7 @@ def get_time_table(request):
     if request.method == 'POST':
         try:
             sem = request.POST.get('sem','')
+            print('iamin:',request.POST.get('batch', ''))
             batch = request.POST.get('batch', '').upper()[0]
             main_batch = request.POST.get('batch', '').upper()
             if not batch:
@@ -76,7 +77,6 @@ def get_time_table(request):
             file_content = timetable.file.read().decode('utf-8')
             df = pd.read_csv(StringIO(file_content))
             desired_columns = ['DAY', 'Class Name', f'Batch {main_batch}']
-            
             # Select only the desired columns and create a copy
             temp_df = df[desired_columns].copy()
             

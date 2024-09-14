@@ -12,8 +12,8 @@ function UserProfile() {
             return null;
         }
     });
-        const [errorMessage, setErrorMessage] = useState(null);
-    const {username} = useLogin()
+    const [errorMessage, setErrorMessage] = useState(null);
+    const { username } = useLogin()
     // Fetch profile data if it's not available in localStorage
     useEffect(() => {
         if (!profileData) {
@@ -49,7 +49,36 @@ function UserProfile() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 flex justify-center items-center">
+        <div>
+            <aside id="default-sidebar" className="fixed top-50 left-0 z-40 h-screen transition-transform -translate-x-full lg:translate-x-0" style={{width:'75vh'}} aria-label="Sidebar">
+                <div className="h-full px-3 py-4 overflow-y-auto ">
+                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+                        <h2 className="text-xl font-bold text-blue-600 mb-4">Student Profile</h2>
+                        <div className="text-gray-700">
+                            <p><span className="font-bold">Username: {profileData.username}</span> </p>
+                            <p><span className="font-bold">Full Name: {profileData.full_name || 'N/A'}</span> </p>
+                            <p><span className="font-bold">Email: {profileData.email}</span> </p>
+                            <p><span className="font-bold">Branch: {profileData.branch}</span></p>
+                            <p><span className="font-bold">Sem: {profileData.sem}</span></p>
+                            <p><span className="font-bold">Batch: {profileData.batch}</span></p>
+                            <p><span className="font-bold">Roll No: {profileData.roll_no}</span></p>
+                            {/* <p><span className="font-bold">User Type:</span> {profileData.user_type}</p> */}
+                            {/* <p><span className="font-bold">Active:</span> {profileData.is_active ? 'Yes' : 'No'}</p> */}
+                            <p><span className="font-bold">Joined: {new Date(profileData.date_joined).toLocaleDateString()}</span></p>
+                        </div>
+                        <button
+                            className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+
+                        >
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    )
+    {/* return (
+        <div className="min-h-screen bg-gray-100 sticky z-0">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
                 <h2 className="text-xl font-bold text-blue-600 mb-4">Student Profile</h2>
                 <div className="text-gray-700">
@@ -60,8 +89,8 @@ function UserProfile() {
                     <p><span className="font-bold">Sem:</span> {profileData.sem}</p>
                     <p><span className="font-bold">Batch:</span> {profileData.batch}</p>
                     <p><span className="font-bold">Roll No:</span> {profileData.roll_no}</p>
-                    {/* <p><span className="font-bold">User Type:</span> {profileData.user_type}</p> */}
-                    {/* <p><span className="font-bold">Active:</span> {profileData.is_active ? 'Yes' : 'No'}</p> */}
+                    <p><span className="font-bold">User Type:</span> {profileData.user_type}</p>
+                    <p><span className="font-bold">Active:</span> {profileData.is_active ? 'Yes' : 'No'}</p>
                     <p><span className="font-bold">Joined:</span> {new Date(profileData.date_joined).toLocaleDateString()}</p>
                 </div>
                 <button 
@@ -72,7 +101,7 @@ function UserProfile() {
                 </button>
             </div>
         </div>
-    );
+    ); */}
 }
 
 export default UserProfile;

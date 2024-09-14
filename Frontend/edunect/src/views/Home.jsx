@@ -95,7 +95,6 @@ function Home() {
   if (userType === 'admin') {
     return (
       <div>
-        <AdminNav />
         <div className="p-6 bg-gray-100">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className='flex flex-col space-y-6 flex-1'>
@@ -154,13 +153,11 @@ function Home() {
   else {
     return (
       <>
-        <AdminNav />
         {firstTime === true ?
           <ChangePassword /> :
           (
             <div>
               <p>Welcome Student</p>
-              <UserProfile />
             </div>
           )
         }
