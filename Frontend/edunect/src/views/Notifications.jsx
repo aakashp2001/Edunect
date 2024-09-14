@@ -87,7 +87,7 @@ const Notifications = () => {
 
     if (userType !== 'admin') {
         return (
-            <div className='p-4 lg:ml-64'>
+            <div className=''>
                 {loader && <LoadingSpinner />}
                 {notificationArr.length > 0 ? (
                     <>

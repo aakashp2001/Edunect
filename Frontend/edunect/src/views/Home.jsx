@@ -10,6 +10,9 @@ function Home() {
   const [notificationArr, setNotificationArr] = useState([])
   var arry = [];
 
+  const [name,setName] = useState('')
+  const [profileData, setProfileData] = useState({'full_name':''})
+
   // setNotificationArr(arr)
   useEffect(() => {
     if (!userType) {
@@ -27,10 +30,21 @@ function Home() {
         //   console.log(arr[i]);
         // }
         setNotificationArr(arr);
-
+        
       }).catch((err) => { console.error(err) });
-
+      console.log(JSON.parse(localStorage.getItem('profileData')));
+      if(localStorage.getItem('profileData')){
+        setProfileData({'full_name':JSON.parse(localStorage.getItem('profileData'))['full_name']})
+        
+      }
+      
   }, [])
+  
+
+  useEffect(()=>{
+    setName(profileData.full_name)
+  },[profileData])
+  
   const contacts = [{
     "Activity": "Internal Quality Assurance Cell",
     "Coordinator": "Mr. Rohit Patel",
@@ -151,6 +165,7 @@ function Home() {
 
   }
   else {
+
     return (
       <>
         {firstTime === true ?
@@ -163,6 +178,7 @@ function Home() {
                     <div className="flex-1 bg-white flex flex-col items-center justify-center text-center rounded-lg shadow-md">
                       <h1 className='px-6 py-3 mt-6 text-4xl font-extrabold leading-none tracking-tight'>
                         Welcome, {username}!
+
                       </h1>
                       <p className='px-6 mb-6'>This is the home page.</p>
                     </div>
