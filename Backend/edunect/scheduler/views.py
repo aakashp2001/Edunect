@@ -113,7 +113,6 @@ def get_time_table(request):
     
     return JsonResponse({'error': 'Invalid request method'})
 
-
 @csrf_exempt
 def upload_attendance(request):
     if request.method == 'POST':
@@ -293,3 +292,61 @@ def upload_attendance(request):
         # except Exception as e:
         #     return JsonResponse({'error': f'An error occurred: {str(e)}'})
 
+@csrf_exempt
+def get_attendance(request):
+    if request.method == 'POST':
+        total_attendance = []
+        student = request.POST.get('student')
+        batch = request.POST.get('batch').upper()
+        sem = request.POST.get('sem')
+        if not student or not batch or not sem:
+            return JsonResponse({'error': 'Missing parameters'}, status=400)
+    
+        try:
+            student_attendance = Attendance.objects.filter(
+                student=student,
+                batch=batch,
+                sem=sem
+            )
+        except Attendance.DoesNotExist:
+            student_attendance = None
+
+        try:
+            subject = Subject.objects.filter(
+                batch=batch,
+                sem=sem
+            )
+            for i in subject:
+                total_attendance.append(i.total)
+        except Subject.DoesNotExist:
+            total_attendance = None
+
+        # print(total_attendance)
+        # print("total:",subject)
+        # print("student:",student_attendance)
+
+        subject_dict = {}
+
+        subject_lectures = {
+            obj.subject: obj.total 
+            for obj in subject
+        }
+        for attendance in student_attendance:
+            subject_name = attendance.subject 
+            if subject_name not in subject_dict:
+                subject_dict[subject_name] = [0, []] 
+            
+            subject_dict[subject_name][0] = subject_lectures.get(subject_name, 0) 
+            subject_dict[subject_name][1] =(attendance.attendance)
+        # print(subject_dict)
+        response_data = {
+            'student': student,
+            'batch': batch,
+            'sem': sem,
+            'attendance': subject_dict if student_attendance else 'No record',
+        }
+        
+        return JsonResponse(response_data)
+    return JsonResponse({'error': 'Invalid request method'})
+        # except Exception as e:
+        #     return JsonResponse({'error': f'An error occurred: {str(e)}'})
