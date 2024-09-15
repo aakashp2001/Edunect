@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AdminNav from './components/AdminNav';
+import Navigation from './components/Navigation'
 import { useLogin } from '../required_context/LoginContext';
 import NotificationItem from './components/Notification_Item';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -87,18 +87,19 @@ const Notifications = () => {
 
     if (userType !== 'admin') {
         return (
-            <div className='p-4 lg:ml-64'>
+            <div className=''>
                 {loader && <LoadingSpinner />}
                 {notificationArr.length > 0 ? (
                     <>
-                        {paginate(notificationArr, PAGE_SIZE, page).map((notification, index) => (
-                            <NotificationItem
-                                key={index}
-                                notification_head={notification.notification_head}
-                                notification_body={notification.notification_body}
-                                date={notification.date}
-                            />
-                        ))}
+                        <div className="max-w-full mx-auto mt-8 space-y-4">
+                            {paginate(notificationArr, PAGE_SIZE, page).map((notification, index) => (
+                                <div key={index} className="bg-white shadow-lg rounded-lg mx-4 p-6 hover:shadow-xl transition-shadow duration-300">
+                                    <h3 className="text-xl font-semibold text-indigo-600 mb-2">{notification.notification_head}</h3>
+                                    <p className="text-gray-700 mb-4">{notification.notification_body}</p>
+                                    <div className="text-right text-sm text-gray-500">{new Date(notification.date).toLocaleDateString()}</div>
+                                </div>
+                            ))}
+                        </div>
                         <div className="p-4 flex items-center flex-wrap z-10">
                             <nav className='mx-auto'>
                                 <ul className='inline-flex'>
@@ -120,7 +121,6 @@ const Notifications = () => {
 
     return (
         <>
-            {/* <AdminNav /> */}
             <div className="max-w-md mx-auto p-6 mt-4 bg-white shadow-md rounded-lg">
                 <h2 className="text-xl font-bold mb-4">Create Notification</h2>
                 <form className="space-y-4" onSubmit={handleSubmit}>
@@ -170,14 +170,23 @@ const Notifications = () => {
                     </div>
                 </form>
             </div>
-            {paginate(notificationArr, PAGE_SIZE, page).map((notification, index) => (
+            {/* {paginate(notificationArr, PAGE_SIZE, page).map((notification, index) => (
                 <NotificationItem
                     key={index}
                     notification_head={notification.notification_head}
                     notification_body={notification.notification_body}
                     date={notification.date}
                 />
-            ))}
+            ))} */}
+            <div className="max-w-full mx-auto mt-8 space-y-4">
+                {paginate(notificationArr, PAGE_SIZE, page).map((notification, index) => (
+                    <div key={index} className="bg-white shadow-lg rounded-lg mx-4 p-6 hover:shadow-xl transition-shadow duration-300">
+                        <h3 className="text-xl font-semibold text-indigo-600 mb-2">{notification.notification_head}</h3>
+                        <p className="text-gray-700 mb-4">{notification.notification_body}</p>
+                        <div className="text-right text-sm text-gray-500">{new Date(notification.date).toLocaleDateString()}</div>
+                    </div>
+                ))}
+            </div>
             <div className="p-4 flex items-center flex-wrap">
                 <nav className='mx-auto'>
                     <ul className='inline-flex'>

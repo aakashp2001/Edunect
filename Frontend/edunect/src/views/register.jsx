@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AdminNav from './components/AdminNav'
+import Navigation from './components/Navigation'
 import LoadingSpinner from './components/LoadingSpinner'
 /**
  *
@@ -48,7 +48,6 @@ function Register() {
   }
   return (
     <div>
-      <AdminNav />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

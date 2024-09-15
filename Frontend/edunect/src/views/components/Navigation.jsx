@@ -2,8 +2,8 @@ import React from 'react'
 import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
 import { useLogin } from '../../required_context/LoginContext.jsx'
-import UserProfile from './UserProfile';
-function AdminNav() {
+import UserProfile from './UserProfile.jsx';
+function Navigation() {
     const { logout, userType, isLoggedIn } = useLogin()
 
     const toggleNav = () => {
@@ -18,21 +18,21 @@ function AdminNav() {
         student: [
             { label: 'Home', path: '/home' },
             { label: 'Notification', path: '/notifications' },
-            { label: 'timetable', path: '/timetable' },
+            { label: 'Timetable', path: '/timetable' },
             { label: 'Document', path: '/document' },
             { label: 'Result', path: '#' },
-            { label: 'Attendence', path: '#' }
+            { label: 'Attendence', path: '/attendance' }
             
         ],
         admin: [
             { label: 'Home', path: '/home' },
             { label: 'Notification', path: '/notifications' },
             { label: 'SignUp', path: '/signup' },
-            { label: 'Students', path: '/studnet' },
-            { label: 'timetable', path: '/timetable' },
+            { label: 'Students', path: '/students' },
+            { label: 'Timetable', path: '/timetable' },
             { label: 'Document', path: '/document' },
             { label: 'Result', path: '#' },
-            { label: 'Attendence', path: '#' },
+            { label: 'Attendence', path: '/attendance' },
 
         ]
     };
@@ -89,6 +89,9 @@ function AdminNav() {
                                 <Link to='/document' className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0" aria-current='page'>Documents</Link>
                             </li>
                             */}
+                            {(userType === 'student')&& (
+                                 <UserProfile/>
+                            ) }
                             <li>
                                 <Link to='#' className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-2" aria-current='page' onClick={performLogout}>{isLoggedIn &&  'Logout' || 'Login'}</Link>
 
@@ -97,12 +100,8 @@ function AdminNav() {
                     </div>
                 </div>
             </nav>
-            {userType === 'student' && 
-            <div>
-                <UserProfile/>
-            </div>}
         </div >
     )
 }
 
-export default AdminNav
+export default Navigation

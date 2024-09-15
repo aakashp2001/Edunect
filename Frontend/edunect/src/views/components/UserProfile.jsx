@@ -12,6 +12,8 @@ function UserProfile() {
             return null;
         }
     });
+    const [profileButtonVal, setProfileButtonVal] = useState('Show Profile')
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const { username } = useLogin()
     // Fetch profile data if it's not available in localStorage
@@ -33,6 +35,11 @@ function UserProfile() {
         }
     }, [profileData]);
 
+    // useEffect(() => {
+    //     document.getElementById('default-sidebar').classList.add = 'hidden';
+    //     setProfileButtonVal('Show Profile');
+    // }, [])
+
     // Function to handle logout
     const handleLogout = () => {
         localStorage.removeItem('profileData'); // Clear profile data from localStorage
@@ -48,10 +55,76 @@ function UserProfile() {
         return <div>Loading...</div>;
     }
 
+
+    const toggleModal = () => {
+        if (profileButtonVal === 'Show Profile') {
+            setProfileButtonVal('Hide Profile');
+            setIsModalOpen(true);
+        } else {
+            setProfileButtonVal('Show Profile');
+            setIsModalOpen(false);
+        }
+    };
+
+    const closeUserProfile = () => {
+        setProfileButtonVal('Show Profile');
+        setIsModalOpen(false);
+    };
+
     return (
         <div>
-            <aside id="default-sidebar" className="fixed top-50 left-0 z-40 h-screen transition-transform -translate-x-full lg:translate-x-0" style={{width:'75vh'}} aria-label="Sidebar">
-                <div className="h-full px-3 py-4 overflow-y-auto ">
+            <button
+                type="button"
+                className="font-medium flex flex-col p-2 pb-4 lg:p-0 border border-gray-100 rounded-lg bg-gray-100 lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 lg:border-0 lg:w-100"
+                onClick={toggleModal}
+            >
+                <i className="bi bi-person-circle">
+                {' '+profileButtonVal}
+                </i>
+            </button>
+
+            {/* Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+                        <h2 className="text-xl font-bold text-blue-600 mb-4">Student Profile</h2>
+                        <div className="text-gray-700">
+                            <p><span className="font-bold">Username: {profileData.username}</span></p>
+                            <p><span className="font-bold">Full Name: {profileData.full_name || 'N/A'}</span></p>
+                            <p><span className="font-bold">Email: {profileData.email}</span></p>
+                            <p><span className="font-bold">Branch: {profileData.branch}</span></p>
+                            <p><span className="font-bold">Sem: {profileData.sem}</span></p>
+                            <p><span className="font-bold">Batch: {profileData.batch}</span></p>
+                            <p><span className="font-bold">Roll No: {profileData.roll_no}</span></p>
+                            <p><span className="font-bold">Joined: {new Date(profileData.date_joined).toLocaleDateString()}</span></p>
+                        </div>
+                        <button
+                            className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                            onClick={closeUserProfile}
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
+            {/* <button type="button" class="font-medium flex flex-col p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-100 lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 lg:border-0  lg:w-100" onClick={
+                ()=>{
+                    if (profileButtonVal==='Show Profile') {
+                        setProfileButtonVal('Hide Profile');
+                        document.getElementById('default-sidebar').classList.remove = 'hidden';
+
+                    }
+                    else {
+                        document.getElementById('default-sidebar').classList.add = 'hidden';
+                        setProfileButtonVal('Show Profile');
+
+                    }
+
+                }
+            }><i class="bi bi-person-circle"></i></button>
+
+            <aside id="default-sidebar" className="fixed top-0 lg:top-50 left-0 z-0 hidden transition-transform translate-x-0 w-96" aria-label="Sidebar">
+                <div className="h-full px-3 py-4 overflow-y-auto z-0">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
                         <h2 className="text-xl font-bold text-blue-600 mb-4">Student Profile</h2>
                         <div className="text-gray-700">
@@ -63,18 +136,19 @@ function UserProfile() {
                             <p><span className="font-bold">Batch: {profileData.batch}</span></p>
                             <p><span className="font-bold">Roll No: {profileData.roll_no}</span></p>
                             {/* <p><span className="font-bold">User Type:</span> {profileData.user_type}</p> */}
-                            {/* <p><span className="font-bold">Active:</span> {profileData.is_active ? 'Yes' : 'No'}</p> */}
+            {/* <p><span className="font-bold">Active:</span> {profileData.is_active ? 'Yes' : 'No'}</p> 
                             <p><span className="font-bold">Joined: {new Date(profileData.date_joined).toLocaleDateString()}</span></p>
                         </div>
                         <button
-                            className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                            className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600" onClick={closeUserProfile}
 
                         >
-                            Logout
+                            Close
                         </button>
+                        
                     </div>
                 </div>
-            </aside>
+            </aside> */}
         </div>
     )
     {/* return (
