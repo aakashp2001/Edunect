@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import pandas as pd
+import numpy as np
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from io import BytesIO
@@ -116,9 +117,9 @@ def get_time_table(request):
 @csrf_exempt
 def upload_attendance(request):
     if request.method == 'POST':
-        try:
+        # try:
             file = request.FILES['file']
-            
+            sem = request.POST.get('sem')
             if file.name.endswith('.csv'):
                 try:
                     df = pd.read_csv(file, header=None)
@@ -138,12 +139,11 @@ def upload_attendance(request):
             final_df = pd.DataFrame()
             df = df[1:]
             df.reset_index(drop=True, inplace=True)
-            
             i = 0
             while i < df.shape[1]:
                 batch_name = df.iloc[0, i+2] if i+2 < df.shape[1] else 'Unknown Batch'
                 
-                branch_list = df.iloc[1::7, i]
+                branch_list = df.iloc[0::7, i]
                 replicated_list = [element.split(' ')[1] for element in branch_list for _ in range(5)]
                 
                 start_row = 2
@@ -165,9 +165,97 @@ def upload_attendance(request):
             final_df = final_df.dropna(subset=['Lecture_No'])
 
             print(final_df)
+            print(final_df[final_df['Batch']=='D1'])
             
-            branch_counts = md.CustomUser.objects.values('batch').annotate(student_count=models.Count('id'))
-            print(branch_counts)
+            batch = md.CustomUser.objects.values('batch').annotate(student_count=models.Count('id'))
+            # print(batch)
+            
+            for i in batch:
+                if(i['batch']!=None):
+                    students = md.CustomUser.objects.filter(batch=i['batch'],sem=sem)
+                    batch_df = final_df[final_df['Batch']==i['batch']]
+                    # print(batch_df)
+                    for index, row in batch_df.iterrows():
+                        # print(row)
+                        if(pd.notna(row['Subject'])):
+                            subject, created = Subject.objects.get_or_create(
+                                                subject=row['Subject'],
+                                                sem = sem,
+                                                batch = row['Batch']
+                                            )
+                                            
+                            if not created:
+                                subject.total += 1
+                            else:
+                                subject.total = 1
+                            subject.save()
+                            
+                            print(row)
+                            absent_nos = row['Absent_Nos']
+                            if absent_nos != 'NIL':
+                                # Ensure absent_nos is a string
+                                if isinstance(absent_nos, int):
+                                    absent_nos = str(absent_nos)  # Convert integer to string
+
+                                absent_roll_nos = str(absent_nos).split(', ')  # Split the string into a list
+                                
+                                for student in students:
+                                    # Ensure student.roll_no is a string for comparison
+                                    if isinstance(student.roll_no, int):
+                                        student_roll_no = str(student.roll_no)
+                                    else:
+                                        student_roll_no = student.roll_no
+                                    
+                                    if student_roll_no not in absent_roll_nos:
+                                        print(absent_roll_nos)
+                                        
+                                        attendance, created = Attendance.objects.get_or_create(
+                                            student=student_roll_no,
+                                            sem=sem,
+                                            batch=student.batch,
+                                            subject=row['Subject']
+                                        )
+                                        
+                                        if not created:
+                                            attendance.attendance += 1
+                                        else:
+                                            attendance.attendance = 1
+                                        
+                                        attendance.save()
+                                    
+
+                            else:
+                                print('full present processing')
+                                for student in students:
+                                    print(student)
+                                    attendance, created = Attendance.objects.get_or_create(
+                                            student=student.roll_no,
+                                            sem=sem,
+                                            batch=student.batch,
+                                            subject=row['Subject'])
+                                    if not created:
+                                        attendance.attendance += 1
+                                    else:
+                                        attendance.attendance = 1
+                                    attendance.save()    
+                        
+                    # for i in batch_df:
+                    #     print(i['Absent_Nos'].split(', '))
+                        # for student in students:
+                            
+                            # if student.roll_no == i['roll']:
+                                # attendance, created = Attendance.objects.get_or_create(
+                                #     student=student,
+                                #     subject=i['Subject']
+                                # )
+                                # if not created:
+                                #     attendance.attendance += 1
+                                #     print('a')
+                                # else:
+                                #     attendance.attendance = 1
+                                #     print('b')
+                    
+                    
             # Process the attendance data
             # for _, row in final_df.iterrows():
             #     lecture_no = row['Lecture_No']
@@ -202,6 +290,6 @@ def upload_attendance(request):
 
             return JsonResponse({'message': 'File processed successfully', 'data': final_df.to_dict()})
 
-        except Exception as e:
-            return JsonResponse({'error': f'An error occurred: {str(e)}'})
+        # except Exception as e:
+        #     return JsonResponse({'error': f'An error occurred: {str(e)}'})
 
