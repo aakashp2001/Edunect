@@ -4,9 +4,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from io import BytesIO
 from django.core.files import File
-from .models import TimeTable
+from .models import *
 from io import StringIO
-
+from account import models as md
 @csrf_exempt
 def upload_timetable(request):
     if request.method == 'POST':
@@ -66,7 +66,6 @@ def get_time_table(request):
     if request.method == 'POST':
         try:
             sem = request.POST.get('sem','')
-            print('iamin:',request.POST.get('batch', ''))
             batch = request.POST.get('batch', '').upper()[0]
             main_batch = request.POST.get('batch', '').upper()
             if not batch:
@@ -112,3 +111,97 @@ def get_time_table(request):
             return JsonResponse({'error': 'An error occurred', 'msg': str(e)})
     
     return JsonResponse({'error': 'Invalid request method'})
+
+
+@csrf_exempt
+def upload_attendance(request):
+    if request.method == 'POST':
+        try:
+            file = request.FILES['file']
+            
+            if file.name.endswith('.csv'):
+                try:
+                    df = pd.read_csv(file, header=None)
+                except Exception as e:
+                    return JsonResponse({'error': f'Error reading CSV file: {str(e)}'})
+            elif file.name.endswith('.xlsx') or file.name.endswith('.xls'):
+                try:
+                    df = pd.read_excel(file, engine='openpyxl' if file.name.endswith('.xlsx') else 'xlrd', header=None)
+                except Exception as e:
+                    return JsonResponse({'error': f'Error reading Excel file: {str(e)}'})
+            else:
+                return JsonResponse({'error': 'Unsupported file type'})
+
+            if df.empty:
+                return JsonResponse({'error': 'File is empty or invalid format'})
+
+            final_df = pd.DataFrame()
+            df = df[1:]
+            df.reset_index(drop=True, inplace=True)
+            
+            i = 0
+            while i < df.shape[1]:
+                batch_name = df.iloc[0, i+2] if i+2 < df.shape[1] else 'Unknown Batch'
+                
+                branch_list = df.iloc[1::7, i]
+                replicated_list = [element.split(' ')[1] for element in branch_list for _ in range(5)]
+                
+                start_row = 2
+                pattern_rows = []
+
+                while start_row < df.shape[0]:
+                    end_row = start_row + 5
+                    pattern_rows.append(df.iloc[start_row:end_row, i:i+4])
+                    start_row = end_row + 2
+
+                data_rows = pd.concat(pattern_rows, ignore_index=True)
+                data_rows.columns = ['Lecture_No', 'Subject', 'Faculty', 'Absent_Nos']
+                data_rows['Batch'] = replicated_list
+                
+                final_df = pd.concat([final_df, data_rows], ignore_index=True)
+                i += 5
+
+            final_df = final_df[~final_df['Lecture_No'].astype(str).str.contains('Batch:')]
+            final_df = final_df.dropna(subset=['Lecture_No'])
+
+            print(final_df)
+            
+            branch_counts = md.CustomUser.objects.values('batch').annotate(student_count=models.Count('id'))
+            print(branch_counts)
+            # Process the attendance data
+            # for _, row in final_df.iterrows():
+            #     lecture_no = row['Lecture_No']
+            #     subject_name = row['Subject']
+            #     absent_nos = str(row['Absent_Nos'])
+            #     batch = row['Batch']
+            #     if pd.notna(subject_name) and pd.notna(absent_nos):
+            #         students_in_batch = md.CustomUser.objects.filter(batch=batch).values_list('id', flat=True)
+                    
+            #         # Handle attendance for each student in the batch
+            #         absent_numbers = [int(num) for num in absent_nos.split(', ') if num.isdigit()]
+                    
+            #         for student_id in absent_numbers:
+            #             if student_id in students_in_batch:
+            #                 # Assuming roll_no matches student_id for the sake of this example
+            #                 student = md.CustomUser.objects.get(id=student_id)
+            #                 if student:
+            #                     attendance, created = Attendance.objects.get_or_create(
+            #                         student=student,
+            #                         subject=subject_name
+            #                     )
+            #                     if not created:
+            #                         print('in if')
+            #                         # Update existing record
+            #                         attendance.attendance += 1
+            #                         attendance.save()
+            #                     else:
+            #                         print('in else')
+            #                         # Initialize new record
+            #                         attendance.attendance = 1
+            #                         attendance.save()
+
+            return JsonResponse({'message': 'File processed successfully', 'data': final_df.to_dict()})
+
+        except Exception as e:
+            return JsonResponse({'error': f'An error occurred: {str(e)}'})
+
