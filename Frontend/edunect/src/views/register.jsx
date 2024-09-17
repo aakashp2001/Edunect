@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Navigation from './components/Navigation'
 import LoadingSpinner from './components/LoadingSpinner'
+import sampleExcel from '../assets/docs/testing_student_sheet.xlsx'
 /**
  *
  * enrollment, email, full_name, branch, batch, roll_no
@@ -17,7 +18,7 @@ function Register() {
     const formData = new FormData();
     formData.append('file', fileState);
     formData.append('password', defaultPassword);
-    formData.append('sem',sem);
+    formData.append('sem', sem);
     setLoading(true)
 
     fetch('http://127.0.0.1:8000/account/signup', {
@@ -46,6 +47,14 @@ function Register() {
   const handleFileChange = (e) => {
     setFileState(e.target.files[0])
   }
+  const onButtonClick = () => {
+    const link = document.createElement('a');
+    link.href = sampleExcel;
+    link.download = 'Student_Register_Template.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <div>
 
@@ -97,9 +106,13 @@ function Register() {
               </div>
             </div>
           </form>
+          <h3 className="text-base font-semibold mb-2 block">Click on the button below to download the sample file</h3>
+          <button className="group relative w-full flex justify-center my-7 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-800 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={onButtonClick}>
+            Download Sample Template
+          </button>
         </div>
       </div>
-
+      
     </div>
   )
 }

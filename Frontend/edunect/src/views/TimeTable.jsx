@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Navigation from './components/Navigation'
 import axios from 'axios'
 import { useLogin } from '../required_context/LoginContext'
+import sampleExcel from '../assets/docs/SY2_TIME_TABLE_SEM-4_Template.xlsx'
+
 function TimeTable() {
 
 
@@ -65,6 +67,15 @@ function TimeTable() {
         }
     }, []);
 
+
+    const onButtonClick = () => {
+        const link = document.createElement('a');
+        link.href = sampleExcel;
+        link.download = 'Student_TimeTable_Template.xlsx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     const [selectedDay, setSelectedDay] = useState();
     const [lengthArr, setLengthArr] = useState([]);
@@ -143,10 +154,10 @@ function TimeTable() {
                                             }
                                             </tr>
                                             ))} */}
-                            
+
                             </tbody>
                         </table>
-                       {!(isValid) && ( <p className='text-center w-100 bg-red-200 text-red-800'>Time table not uploaded yet</p>)}
+                        {!(isValid) && (<p className='text-center w-100 bg-red-200 text-red-800'>Time table not uploaded yet</p>)}
                     </div>
                 </div>
             </>
@@ -230,6 +241,10 @@ function TimeTable() {
                                 </div>
                             </div>
                         </form>
+                        <h3 className="text-base font-semibold mb-2 block">Click on the button below to download the sample file</h3>
+                        <button className="group relative w-full flex justify-center my-7 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-800 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={onButtonClick}>
+                            Download Sample Template
+                        </button>
                     </div>
                 </div>
             </div>

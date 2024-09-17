@@ -29,3 +29,13 @@ class Attendance(models.Model):
         return f"{self.student} {self.subject}"
 
 
+class Result(models.Model):
+    student = models.CharField(max_length=40) #enrollment number 
+    subject = models.CharField(max_length=20)
+    t1 = models.IntegerField(null=True, blank=True)
+    t2 = models.IntegerField(null=True, blank=True)
+    t3 = models.IntegerField(null=True, blank=True)
+    t4 = models.IntegerField(null=True, blank=True)
+    sem = models.CharField(max_length=5, null=True,blank=True)
+    def __str__(self):
+        return f"{self.student} {self.subject} of sem {self.sem}"

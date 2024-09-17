@@ -15,6 +15,7 @@ import Attendance from './views/Attendance.jsx';
 import TimeTable from './views/TimeTable.jsx';
 import Navigation from './views/components/Navigation.jsx';
 import UserProfile from './views/components/UserProfile.jsx';
+import Result from './views/Result.jsx'
 function App() {
   return (
     <div>
@@ -28,6 +29,7 @@ function App() {
             {/* Private routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/home" element={<Home />} />
+              <Route path='/result' element={<Result/>} />
               <Route path="/signup" element={<Register />} />
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/document" element={<Documents />} />

@@ -350,3 +350,114 @@ def get_attendance(request):
     return JsonResponse({'error': 'Invalid request method'})
         # except Exception as e:
         #     return JsonResponse({'error': f'An error occurred: {str(e)}'})
+
+@csrf_exempt
+def upload_result(request):
+    try:
+        if request.method == "POST":
+            file = request.FILES['file']
+            phase = request.POST.get('phase').lower()
+            subject = request.POST.get('subject').upper()
+            sem = request.POST.get('sem')
+            if phase not in ['t1','t2','t3','t4']:
+                return JsonResponse({'resp':0,'error':'Invalid Phase use t1, t2, t3, t4 only'})
+            if file.name.endswith('.csv'):
+                try:
+                    df = pd.read_csv(file, header=None)
+                except Exception as e:
+                    return JsonResponse({'error': f'Error reading CSV file: {str(e)}'})
+            elif file.name.endswith('.xlsx') or file.name.endswith('.xls'):
+                try:
+                    df = pd.read_excel(file, engine='openpyxl' if file.name.endswith('.xlsx') else 'xlrd', header=None)
+                except Exception as e:
+                    return JsonResponse({'error': f'Error reading Excel file: {str(e)}'})
+            else:
+                return JsonResponse({'error': 'Unsupported file type'})
+
+            if df.empty:
+                return JsonResponse({'error': 'File is empty or invalid format'})
+            final_df = df.iloc[2:].reset_index(drop=True)
+            final_df.columns = ['enrollment_number', 'marks']
+            # final_df = df[2:]
+            
+            # print(final_df)
+            # iterating each row
+            for index, row in final_df.iterrows():
+                print(row['enrollment_number'],row['marks'])
+                result,created = Result.objects.get_or_create(
+                    student = row['enrollment_number'],
+                    sem = sem,
+                    subject = subject
+                )
+                if not created:
+                    if(phase=='t1'):
+                        result.t1 = row['marks']
+                    elif(phase=='t2'):
+                        result.t2 = row['marks']
+                    elif(phase=='t3'):
+                        result.t3 = row['marks']
+                    else:
+                        result.t4 = row['marks']
+                else:
+                    if(phase=='t1'):
+                        result.t1 = row['marks']
+                    elif(phase=='t2'):
+                        result.t2 = row['marks']
+                    elif(phase=='t3'):
+                        result.t3 = row['marks']
+                    else:
+                        result.t4 = row['marks']
+                result.save()
+
+            return JsonResponse({'resp':1, 'message':'data added successfully','data': final_df.to_dict()})
+        else:
+            return JsonResponse({'resp':0,'error':'Invalid Method Use Post'})
+    except Exception as e:
+        return JsonResponse({'resp':0,'error':str(e)})
+
+@csrf_exempt
+def get_result(request):
+    try:
+        if request.method == "POST":
+            sem = request.POST.get('sem')
+            student = request.POST.get('student')
+            final_result = []
+            results = Result.objects.filter(student=student,sem=sem)
+            print(results)
+            if results:
+                for i in results:
+                    final_result.append(
+                        {
+                            'student':i.student,
+                            'subject': i.subject,
+                            't1':i.t1,
+                            't2':i.t2,
+                            't3':i.t3,
+                            't4':i.t4,
+                            'sem':i.sem                       
+                        }
+                    )
+                return JsonResponse({'resp':1,'data':final_result})
+            else:
+                return JsonResponse({'resp':1,'message':'no record','data':[]})
+        pass
+    except Exception as e:
+        return JsonResponse({'resp':0,'error':str(e)})
+    
+@csrf_exempt
+def get_result_sem(request):
+    try:
+        if request.method == "POST":
+            # Get all unique 'sem' values from the Result model
+            unique_sems = Result.objects.values_list('sem', flat=True).distinct()
+            if(unique_sems):
+                return JsonResponse({'unique_sems': list(unique_sems)})
+            else:
+                return JsonResponse({'resp':0,'message':'no record'})
+        else:
+                return JsonResponse({'resp':0,'error':'Expected Request Method is POST'})
+        
+    except Exception as e:
+        return JsonResponse({'resp':0,'error':str(e)})
+    
+    

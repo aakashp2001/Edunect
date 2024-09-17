@@ -20,7 +20,7 @@ function Navigation() {
             { label: 'Notification', path: '/notifications' },
             { label: 'Timetable', path: '/timetable' },
             { label: 'Document', path: '/document' },
-            { label: 'Result', path: '#' },
+            { label: 'Result', path: '/result' },
             { label: 'Attendence', path: '/attendance' }
             
         ],
@@ -31,7 +31,7 @@ function Navigation() {
             { label: 'Students', path: '/students' },
             { label: 'Timetable', path: '/timetable' },
             { label: 'Document', path: '/document' },
-            { label: 'Result', path: '#' },
+            { label: 'Result', path: '/result' },
             { label: 'Attendence', path: '/attendance' },
 
         ]

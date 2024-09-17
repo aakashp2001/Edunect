@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useLogin } from '../required_context/LoginContext'
 import LoadingSpinner from './components/LoadingSpinner'
+import sampleExcel from '../assets/docs/Daily_Absent_Students_Template.xlsx'
+
 import axios from 'axios'
 const Attendance = () => {
   const { userType } = useLogin();
@@ -13,22 +15,32 @@ const Attendance = () => {
   const getIndexSums = (data) => {
     // Extract the arrays from the data object
     const subjects = Object.values(data.attendance);
-    
+
     // Determine the maximum length of the arrays
     const maxLength = Math.max(...subjects.map(arr => arr.length));
-  
+
     // Initialize an array to hold the sums of each index
     const indexSums = Array(maxLength).fill(0);
-  
+
     // Iterate over each subject's array
     subjects.forEach(subject => {
       subject.forEach((value, index) => {
         indexSums[index] += value;
       });
     });
-  
+
     return indexSums;
   };
+
+  const onButtonClick = () => {
+    const link = document.createElement('a');
+    link.href = sampleExcel;
+    link.download = 'Daily_Absent_Students_Template.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   useEffect(() => {
     if (userType === 'student') {
       const profileData = localStorage.getItem('profileData'); // Corrected spelling
@@ -56,7 +68,7 @@ const Attendance = () => {
               // Check the response data directly
               if (resp.data.attendance) {
                 setAttendance(resp.data.attendance);
-                if( attendance){
+                if (attendance) {
                   setOverall(getIndexSums(resp.data));
 
                 }
@@ -98,7 +110,7 @@ const Attendance = () => {
               <tr>
                 <th scope="col" className="px-6 py-3 rounded-s-lg">Subject</th>
                 <th scope="col" className="px-6 py-3">Attended</th>
-                <th scope="col" className="px-6 py-3 rounded-e-lg">Conducted</th>
+                <th scope="col" className="px-6 py-3">Conducted</th>
                 <th scope="col" className="px-6 py-3 rounded-e-lg">Percentage</th>
 
               </tr>
@@ -109,32 +121,32 @@ const Attendance = () => {
                   <th scope="row" className="px-6 py-4 font-medium text-gray-900 break-words">
                     {subject[0]}
                   </th>
-                  <td className="px-6 py-4">{subject[1]}</td>
                   <td className="px-6 py-4">{subject[2]}</td>
-                  <td className="px-6 py-4">{(subject[1] / subject[2]) * 100}%</td>
+                  <td className="px-6 py-4">{subject[1]}</td>
+                  <td className="px-6 py-4">{(subject[2] / subject[1]) * 100}%</td>
                 </tr>
               )) : []}
               {attendance != "No record" && (
                 <tr>
                   {(overall.length > 0) && (
-                      <>
-                        <th>Overall</th>
+                    <>
+                      <th>Overall</th>
 
-                        <td className="px-6 py-4">{overall[0]}</td>
+                      <td className="px-6 py-4">{overall[1]}</td>
 
-                        <td className="px-6 py-4">{overall[1]}</td>
-                        <td className="px-6 py-4">{overall[0]/overall[1]*100}</td>
-                      </>
+                      <td className="px-6 py-4">{overall[0]}</td>
+                      <td className="px-6 py-4">{overall[1] / overall[0] * 100}%</td>
+                    </>
 
 
-                    )
+                  )
                   }
                 </tr>
               )}
 
             </tbody>
           </table>
-          {attendance == "No record" ? (<p className='text-center p-2 rounded-md bg-red-200 text-red-700'>Attendence Data Not found</p>) : []}
+          {attendance == "No record" ? (<p className='text-center p-4 rounded-md bg-red-200 text-red-700'>Attendence Data Not found</p>) : []}
         </div>
       </div>
     )
@@ -225,9 +237,12 @@ const Attendance = () => {
                   </div>
                 </div>
               </form>
+              <h3 className="text-base font-semibold mb-2 block">Click on the button below to download the sample file</h3>
+              <button className="group relative w-full flex justify-center my-7 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-800 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={onButtonClick}>
+                Download Sample Template
+              </button>
             </div>
           </div>
-
         </div>
       </div>
     )
