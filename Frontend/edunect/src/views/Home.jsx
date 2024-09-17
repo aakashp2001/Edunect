@@ -8,7 +8,7 @@ function Home() {
   const [notificationArr, setNotificationArr] = useState([])
   var arry = [];
 
-  const [name, setName] = useState('')
+  const [name, setName] = useState(username)
 
   useEffect(() => {
     if (!userType) {
@@ -18,20 +18,20 @@ function Home() {
     // Retrieve user data from localStorage
     const user = localStorage.getItem('profileData');
     console.log('Retrieved user data from localStorage:', user);
+    setName('')
+    // if (user) {
+    //   try {
+    //     const userObj = JSON.parse(user);
+    //     setName(userObj.full_name || '');
+    //   } catch (error) {
+    //     console.error('Failed to parse user data from localStorage:', error);
+    //   }
+    // } else {
+    //   console.warn('No user data found in localStorage');
+    //   // window.location.reload();
+    // }
 
-    if (user) {
-      try {
-        const userObj = JSON.parse(user);
-        setName(userObj.full_name || '');
-      } catch (error) {
-        console.error('Failed to parse user data from localStorage:', error);
-      }
-    } else {
-      console.warn('No user data found in localStorage');
-      window.location.reload();
-    }
-
-   axios.get('http://127.0.0.1:8000/account/getNotification')
+    axios.get('http://127.0.0.1:8000/account/getNotification')
       .then((response) => {
         const arr = (response.data.data);
 
@@ -46,8 +46,24 @@ function Home() {
 
       }).catch((err) => { console.error(err) });
 
-    
+
   }, [])
+
+  useEffect(() => {
+    const user = localStorage.getItem('profileData');
+
+    if (user) {
+      try {
+        const userObj = JSON.parse(user);
+        setName(userObj.full_name || '');
+      } catch (error) {
+        console.error('Failed to parse user data from localStorage:', error);
+      }
+    } else {
+      console.warn('No user data found in localStorage');
+      // window.location.reload();
+    }
+  }, [name])
 
 
   const contacts = [{
@@ -177,8 +193,8 @@ function Home() {
                   <div className='flex flex-col space-y-6 flex-1'>
                     <div className="flex-1 bg-white flex flex-col items-center justify-center text-center rounded-lg shadow-md">
                       <h1 className='px-6 py-3 mt-6 text-4xl font-extrabold leading-none tracking-tight'>
-                        Welcome, <br/> {(name || 'User')}!
-                       </h1>
+                        Welcome, <br /> {(name || username)}!
+                      </h1>
                       <p className='px-6 mb-6'>This is the home page.</p>
                     </div>
                     <div className="flex-1 bg-white p-6 rounded-lg shadow-md">

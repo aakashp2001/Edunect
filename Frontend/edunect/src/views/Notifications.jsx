@@ -55,7 +55,7 @@ const Notifications = () => {
                 console.error(err);
                 setLoader(false);
             });
-    }, [userType]);
+    }, []);
 
 
     const handleSubmit = (e) => {
@@ -78,6 +78,7 @@ const Notifications = () => {
                 setHeader('')
                 setBody('')
                 setDate(new Date().toISOString().split('T')[0]);
+                setNotificationArr([])
             })
             .catch(error => {
                 console.error(error);

@@ -14,7 +14,7 @@ function TimeTable() {
     const [successMessage, setSuccessMessage] = useState('')
     const { userType } = useLogin()
     const [timetable, setTimeTable] = useState({})
-
+    const [isValid, setIsValid] = useState(false)
     const [day, setDay] = useState()
     const [batch, setBatch] = useState()
     const [length, setLength] = useState()
@@ -39,11 +39,23 @@ function TimeTable() {
                 .then(response => {
                     const arr = JSON.parse(response.data.data);
                     // setTimeTable(JSON.parse(arr));
-
-                    setClassName(Object.keys(arr['Class Name']).map(key => arr['Class Name'][key]))
-                    setDay(Object.keys(arr['DAY']).map(key => arr['DAY'][key]))
-                    setBatch(Object.keys(arr[`Batch ${batch}`]).map(key => arr[`Batch ${batch}`][key]))
-                    setLength(Object.keys(arr['Class Name']).length)
+                    console.log(response.data)
+                    try {
+                        setClassName(Object.keys(arr['Class Name']).map(key => arr['Class Name'][key]))
+                        setDay(Object.keys(arr['DAY']).map(key => arr['DAY'][key]))
+                        setBatch(Object.keys(arr[`Batch ${batch}`]).map(key => arr[`Batch ${batch}`][key]))
+                        setLength(Object.keys(arr['Class Name']).length)
+                        setIsValid(true)
+                        console.log(response.data.data)
+                        if (response.data.data) {
+                            setIsValid(true)
+                        } else {
+                            setIsValid(false)
+                        }
+                    }
+                    catch (err) {
+                        setIsValid(false)
+                    }
 
                     // console.log('ss', response.data)
                 })
@@ -58,20 +70,23 @@ function TimeTable() {
     const [lengthArr, setLengthArr] = useState([]);
     if (userType === 'student') {
         const handleDayChange = (e) => {
-            setSelectedDay(e.target.value);
+            if (isValid) {
+                setSelectedDay(e.target.value);
 
-            if (e.target.value === "MON") {
-                setLengthArr(Array.from({ length: 6 }, (_, i) => i))  // Indexes 0 to 5
-            } else if (e.target.value === "TUE") {
-                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 6))  // Indexes 6 to 11
-            } else if (e.target.value === "WED") {
-                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 12)) // Indexes 12 to 17
-            } else if (e.target.value === "THU") {
-                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 18))  // Indexes 18 to 23
-            } else if (e.target.value === "FRI") {
-                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 24))  // Indexes 24 to 29
-            } else if (e.target.value === "SAT") {
-                setLengthArr(Array.from({ length: 6 }, (_, i) => i + 30))  // Indexes 30 to 35
+                if (e.target.value === "MON") {
+                    setLengthArr(Array.from({ length: 6 }, (_, i) => i))  // Indexes 0 to 5
+                } else if (e.target.value === "TUE") {
+                    setLengthArr(Array.from({ length: 6 }, (_, i) => i + 6))  // Indexes 6 to 11
+                } else if (e.target.value === "WED") {
+                    setLengthArr(Array.from({ length: 6 }, (_, i) => i + 12)) // Indexes 12 to 17
+                } else if (e.target.value === "THU") {
+                    setLengthArr(Array.from({ length: 6 }, (_, i) => i + 18))  // Indexes 18 to 23
+                } else if (e.target.value === "FRI") {
+                    setLengthArr(Array.from({ length: 6 }, (_, i) => i + 24))  // Indexes 24 to 29
+                } else if (e.target.value === "SAT") {
+                    setLengthArr(Array.from({ length: 6 }, (_, i) => i + 30))  // Indexes 30 to 35
+                }
+
             }
 
         }
@@ -88,9 +103,9 @@ function TimeTable() {
                             className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
                             <option value="" disabled selected hidden>Select Day</option>
-                            {days.map((day, index) => (
+                            {isValid ? days.map((day, index) => (
                                 <option key={index} value={day}>{day}</option>
-                            ))}
+                            )) : []}
                         </select>
                     </div>
                     <div className="relative overflow-x-auto">
@@ -114,21 +129,24 @@ function TimeTable() {
                                         }
                                     </tr>
                                 ))}
+
                                 {/* {Array.from({ length }).map((_, i) => (
                                     <tr key={i} className="bg-white">
-                                        {
-                                            day[i] === selectedDay && (
-                                                <>
-                                                    <td className="px-6 py-4">{day[i]}</td>
-                                                    <td className="px-6 py-4">{className[i]}</td>
-                                                    <td className="px-6 py-4">{batch[i]}</td>
-                                                </>
+                                    {
+                                        day[i] === selectedDay && (
+                                            <>
+                                            <td className="px-6 py-4">{day[i]}</td>
+                                            <td className="px-6 py-4">{className[i]}</td>
+                                            <td className="px-6 py-4">{batch[i]}</td>
+                                            </>
                                             )
-                                        }
-                                    </tr>
-                                ))} */}
+                                            }
+                                            </tr>
+                                            ))} */}
+                            
                             </tbody>
                         </table>
+                       {!(isValid) && ( <p className='text-center w-100 bg-red-200 text-red-800'>Time table not uploaded yet</p>)}
                     </div>
                 </div>
             </>
