@@ -96,6 +96,7 @@ function Result() {
     return (
       <div>
         <div className="my-4" id='result'>
+          
           <label htmlFor="day-select" className="block text-sm font-medium text-gray-700">Select Sem</label>
           <select
             id="day-select"
@@ -194,22 +195,25 @@ function Result() {
     return (
       <div>
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              Submit Result
+            </h2>
           <div className="bg-gray-100 py-8 px-4 shadow-lg rounded-lg sm:round-lg sm:px-10">
             <form method="POST" className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="sem" className="block text-sm text-gray-700 mt-3 font-bold">
                   Enter Sem
                 </label>
-                <input type="number" name="sem" id="sem" placeholder='Enter Sem' onChange={(e) => { setSem(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                <input type="number" required name="sem" id="sem" placeholder='Enter Sem' onChange={(e) => { setSem(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 />
                 <label htmlFor="phase" className="block text-sm text-gray-700 mt-3 font-bold">
                   Enter Phase (t1,t2,t3,t4)
                 </label>
-                <input type="text" name="phase" id="phase" placeholder="Enter Phase" onChange={(e) => { setPhase(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" />
+                <input type="text" name="phase" required id="phase" placeholder="Enter Phase" onChange={(e) => { setPhase(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" />
                 <label htmlFor="subject" className="block text-sm text-gray-700 mt-3 font-bold">
                   Enter Subject Name
                 </label>
-                <input type="text" name="subject" id="subject" placeholder="Enter Subject" onChange={(e) => { setSubject(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" />
+                <input type="text" required name="subject" id="subject" placeholder="Enter Subject" onChange={(e) => { setSubject(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" />
 
                 <div className="mt-1">
                   {/* <input id="signup_file" name="signup_file" type="file" required
@@ -217,7 +221,7 @@ function Result() {
 
 
                   <label className="text-base font-semibold mb-2 block">Upload file</label>
-                  <input type="file" onChange={handleFileChange}
+                  <input type="file" required onChange={handleFileChange}
                     className="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded" accept='.xlsx' />
                   <p className="text-xs text-gray-400 mt-2">excel only Allowed.</p>
 

@@ -81,13 +81,13 @@ function Register() {
 
 
                 <label className="text-base font-semibold mb-2 block">Upload file</label>
-                <input type="file" onChange={handleFileChange}
+                <input type="file" required onChange={handleFileChange}
                   className="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded" accept='.xlsx,.xls,.csv,.xml' />
                 <p className="text-xs text-gray-400 mt-2">xlsx, csv are Allowed.</p>
                 <label htmlFor="defaultPassword" className="block text-sm text-gray-700 mt-3 font-bold">
                   Default Password
                 </label>
-                <input type="text" name="defaultPassword" id="defaultPassword" onChange={(e) => { setDefaultPassword(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                <input type="text" required name="defaultPassword" id="defaultPassword" onChange={(e) => { setDefaultPassword(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 />
                 <label htmlFor="sem" className="block text-sm text-gray-700 mt-3 font-bold">
                   Semester

@@ -78,7 +78,19 @@ const Notifications = () => {
                 setHeader('')
                 setBody('')
                 setDate(new Date().toISOString().split('T')[0]);
-                setNotificationArr([])
+                axios.get('http://127.0.0.1:8000/account/getNotification')
+                    .then((response) => {
+                        const arr = response.data.data;
+
+                        setNotificationArr(arr);
+                        const maxPages = get_max_page(arr.length, PAGE_SIZE);
+                        setPageArray(generateArray(maxPages));
+                        setLoader(false);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        setLoader(false);
+                    });
             })
             .catch(error => {
                 console.error(error);
@@ -123,8 +135,9 @@ const Notifications = () => {
     return (
         <>
             <div className="max-w-md mx-auto p-6 mt-4 bg-white shadow-md rounded-lg">
-                <h2 className="text-xl font-bold mb-4">Create Notification</h2>
-                <form className="space-y-4" onSubmit={handleSubmit}>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              Create Notification
+            </h2>                <form className="space-y-4" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="notification_head" className="block text-sm font-medium text-gray-700 mb-1">Header</label>
                         <input

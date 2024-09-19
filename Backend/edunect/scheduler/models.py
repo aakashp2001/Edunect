@@ -39,3 +39,10 @@ class Result(models.Model):
     sem = models.CharField(max_length=5, null=True,blank=True)
     def __str__(self):
         return f"{self.student} {self.subject} of sem {self.sem}"
+    
+class Document(models.Model):
+    title = models.CharField(max_length=255)
+    document = models.FileField(upload_to='documents/', null=False)
+
+    def __str__(self):
+        return self.title

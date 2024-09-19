@@ -1,13 +1,37 @@
 # Edunect
 Edunect is a project for connecting students with institute. 
 
+
+
 # Technologies used
 Backend: Django
 Frontend: React
 
+# Downloading Dependencies
+### pyhton dependencies
+Install Virtual Environment
+```cmd
+Python -m venv env
+env/Scripts/activate
+```
+Install dependencies
+```cmd
+cd Backend/edunect
+pip install -r requirements.txt
+```
+### React dependencies
+```cmd
+cd  Frontend/edunect
+npm install
+```
+
 # To start Project
 Go to Frontend then edunect folder
-> cd ./Frontend/edunect
+```cmd
+ cd ./Frontend/edunect
+ ```
 
 Run following command for starting projects
-> npm run start:dev
+```cmd
+npm run start:dev
+```

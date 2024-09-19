@@ -123,7 +123,7 @@ const Attendance = () => {
                   </th>
                   <td className="px-6 py-4">{subject[2]}</td>
                   <td className="px-6 py-4">{subject[1]}</td>
-                  <td className="px-6 py-4">{(subject[2] / subject[1]) * 100}%</td>
+                  <td className="px-6 py-4">{((subject[2] / subject[1]) * 100).toFixed(3)}%</td>
                 </tr>
               )) : []}
               {attendance != "No record" && (
@@ -135,7 +135,7 @@ const Attendance = () => {
                       <td className="px-6 py-4">{overall[1]}</td>
 
                       <td className="px-6 py-4">{overall[0]}</td>
-                      <td className="px-6 py-4">{overall[1] / overall[0] * 100}%</td>
+                      <td className="px-6 py-4">{((overall[1] / overall[0]) * 100).toFixed(3)}%</td>
                     </>
 
 
@@ -203,12 +203,7 @@ const Attendance = () => {
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-gray-100 py-8 px-4 shadow-lg rounded-lg sm:round-lg sm:px-10">
               <form method="POST" className="space-y-6" onSubmit={setAttendence}>
-                <div>
-                  <h1 className='text-xl my-4 border-b-2 font-semibold'>Instructions:</h1>
-                  <p className='py-4'>
-                    Excel should have following rows: <br /><em className='bg-slate-200'></em> <br />(case sensitive)
-                  </p>
-                </div>
+               
                 <div>
 
                   <div className="mt-1">

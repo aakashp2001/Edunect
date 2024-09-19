@@ -8,6 +8,11 @@ from django.core.files import File
 from .models import *
 from io import StringIO
 from account import models as md
+# views.py
+from django.http import FileResponse, Http404
+from django.conf import settings
+import os
+
 @csrf_exempt
 def upload_timetable(request):
     if request.method == 'POST':
@@ -460,4 +465,59 @@ def get_result_sem(request):
     except Exception as e:
         return JsonResponse({'resp':0,'error':str(e)})
     
+@csrf_exempt
+def upload_document(request):
+    try:
+        if request.method == "POST":
+            # Check if the 'document' and 'title' are in the request
+            if request.FILES.get('document') and request.POST.get('title'):
+                title = request.POST.get('title')
+                document = request.FILES['document']
+
+                # Ensure the uploaded file is a PDF
+                if document.content_type != 'application/pdf':
+                    return JsonResponse({'resp': 0, 'message': 'Only PDF files are allowed.'})
+
+                # Save the document
+                doc_instance = Document(title=title, document=document)
+                doc_instance.save()
+
+                return JsonResponse({'resp': 1, 'message': 'Document uploaded successfully.'})
+            else:
+                return JsonResponse({'resp': 0, 'error': 'Title or document missing.'})
+        else:
+            return JsonResponse({'resp': 0, 'error': 'Expected Request Method is POST'})
     
+    except Exception as e:
+        return JsonResponse({'resp': 0, 'error': str(e)})
+
+
+@csrf_exempt
+def get_all_documents(request):
+    try:
+        if request.method == "POST":
+            # Get all document entries
+            documents = Document.objects.all().order_by('-id')
+            
+            # Manually serialize the data
+            document_list = []
+            for doc in documents:
+                document_list.append({
+                    'id': doc.id,
+                    'title': doc.title,
+                    'document': doc.document.url  # This URL will point to the media file
+                })
+
+            return JsonResponse({'documents': document_list})
+        else:
+            return JsonResponse({'resp': 0, 'error': 'Expected Request Method is POST'})
+
+    except Exception as e:
+        return JsonResponse({'resp': 0, 'error': str(e)})
+    
+def serve_file(request, filename):
+    file_path = os.path.join(settings.DOCUMENTS_ROOT, filename)
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path, 'rb'))
+    else:
+        raise Http404("File not found")

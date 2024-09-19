@@ -211,15 +211,18 @@ function TimeTable() {
         return (
             <div>
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        Submit Timetable
+                    </h2>
                     <div className="bg-gray-100 py-8 px-4 shadow-lg rounded-lg sm:round-lg sm:px-10">
                         <form method="POST" className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="defaultPassword" className="block text-sm text-gray-700 mt-3 font-bold">
                                     Enter Document Title
                                 </label>
-                                <input type="number" name="sem" id="sem" placeholder='Enter Sem' onChange={async (e) => { await setSem(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                <input type="number" required name="sem" id="sem" placeholder='Enter Sem' onChange={async (e) => { await setSem(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 />
-                                <input type="text" name="branch" id="branch" placeholder='Enter Branch' onChange={async (e) => { await setBranch(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                <input type="text" required name="branch" id="branch" placeholder='Enter Branch' onChange={async (e) => { await setBranch(e.target.value) }} className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 />
                                 <div className="mt-1">
                                     {/* <input id="signup_file" name="signup_file" type="file" required
@@ -227,7 +230,7 @@ function TimeTable() {
 
 
                                     <label className="text-base font-semibold mb-2 block">Upload file</label>
-                                    <input type="file" onChange={handleFileChange}
+                                    <input type="file" onChange={handleFileChange} required
                                         className="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded" accept='.xlsx' />
                                     <p className="text-xs text-gray-400 mt-2">excel only Allowed.</p>
 
