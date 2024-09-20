@@ -17,6 +17,25 @@ import Navigation from './views/components/Navigation.jsx';
 import UserProfile from './views/components/UserProfile.jsx';
 import Result from './views/Result.jsx'
 function App() {
+  /***
+   * ### Project Title: Edunect
+### Enrollment Numbers
+```
+Aakash Prajapati    : 23002170120001
+Om Maniar           : 23002171220008
+Himanshu Nirmal     : 23002171220011
+```
+### Date
+``` 
+21-09-24
+```
+
+### subject name
+```
+FSD-2 and FCSP-2
+```
+
+   */
   return (
     <div>
 
@@ -29,7 +48,7 @@ function App() {
             {/* Private routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/home" element={<Home />} />
-              <Route path='/result' element={<Result/>} />
+              <Route path='/result' element={<Result />} />
               <Route path="/signup" element={<Register />} />
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/document" element={<Documents />} />

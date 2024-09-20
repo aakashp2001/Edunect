@@ -8,7 +8,6 @@ from django.core.files import File
 from .models import *
 from io import StringIO
 from account import models as md
-# views.py
 from django.http import FileResponse, Http404
 from django.conf import settings
 import os
@@ -82,13 +81,10 @@ def get_time_table(request):
             file_content = timetable.file.read().decode('utf-8')
             df = pd.read_csv(StringIO(file_content))
             desired_columns = ['DAY', 'Class Name', f'Batch {main_batch}']
-            # Select only the desired columns and create a copy
             temp_df = df[desired_columns].copy()
             
-            # Drop rows with all NaN values (if any column has at least one non-NaN value, the row is kept)
             temp_df.dropna(thresh=1, inplace=True)
             
-            # Handle "BREAK" rows
             temp_df.loc[temp_df['Class Name'] == 'BREAK'] = temp_df.loc[temp_df['Class Name'] == 'BREAK'].fillna('BREAK')
             
             
@@ -121,7 +117,6 @@ def get_time_table(request):
 @csrf_exempt
 def upload_attendance(request):
     if request.method == 'POST':
-        # try:
             file = request.FILES['file']
             sem = request.POST.get('sem')
             if file.name.endswith('.csv'):
@@ -172,15 +167,12 @@ def upload_attendance(request):
             print(final_df[final_df['Batch']=='D1'])
             
             batch = md.CustomUser.objects.values('batch').annotate(student_count=models.Count('id'))
-            # print(batch)
             
             for i in batch:
                 if(i['batch']!=None):
                     students = md.CustomUser.objects.filter(batch=i['batch'],sem=sem)
                     batch_df = final_df[final_df['Batch']==i['batch']]
-                    # print(batch_df)
                     for index, row in batch_df.iterrows():
-                        # print(row)
                         if(pd.notna(row['Subject'])):
                             subject, created = Subject.objects.get_or_create(
                                                 subject=row['Subject'],
@@ -197,14 +189,12 @@ def upload_attendance(request):
                             print(row)
                             absent_nos = row['Absent_Nos']
                             if absent_nos != 'NIL':
-                                # Ensure absent_nos is a string
                                 if isinstance(absent_nos, int):
                                     absent_nos = str(absent_nos)  # Convert integer to string
 
                                 absent_roll_nos = str(absent_nos).split(', ')  # Split the string into a list
                                 
                                 for student in students:
-                                    # Ensure student.roll_no is a string for comparison
                                     if isinstance(student.roll_no, int):
                                         student_roll_no = str(student.roll_no)
                                     else:
@@ -242,61 +232,11 @@ def upload_attendance(request):
                                     else:
                                         attendance.attendance = 1
                                     attendance.save()    
-                        
-                    # for i in batch_df:
-                    #     print(i['Absent_Nos'].split(', '))
-                        # for student in students:
-                            
-                            # if student.roll_no == i['roll']:
-                                # attendance, created = Attendance.objects.get_or_create(
-                                #     student=student,
-                                #     subject=i['Subject']
-                                # )
-                                # if not created:
-                                #     attendance.attendance += 1
-                                #     print('a')
-                                # else:
-                                #     attendance.attendance = 1
-                                #     print('b')
                     
-                    
-            # Process the attendance data
-            # for _, row in final_df.iterrows():
-            #     lecture_no = row['Lecture_No']
-            #     subject_name = row['Subject']
-            #     absent_nos = str(row['Absent_Nos'])
-            #     batch = row['Batch']
-            #     if pd.notna(subject_name) and pd.notna(absent_nos):
-            #         students_in_batch = md.CustomUser.objects.filter(batch=batch).values_list('id', flat=True)
-                    
-            #         # Handle attendance for each student in the batch
-            #         absent_numbers = [int(num) for num in absent_nos.split(', ') if num.isdigit()]
-                    
-            #         for student_id in absent_numbers:
-            #             if student_id in students_in_batch:
-            #                 # Assuming roll_no matches student_id for the sake of this example
-            #                 student = md.CustomUser.objects.get(id=student_id)
-            #                 if student:
-            #                     attendance, created = Attendance.objects.get_or_create(
-            #                         student=student,
-            #                         subject=subject_name
-            #                     )
-            #                     if not created:
-            #                         print('in if')
-            #                         # Update existing record
-            #                         attendance.attendance += 1
-            #                         attendance.save()
-            #                     else:
-            #                         print('in else')
-            #                         # Initialize new record
-            #                         attendance.attendance = 1
-            #                         attendance.save()
 
             return JsonResponse({'message': 'File processed successfully', 'data': final_df.to_dict()})
 
-        # except Exception as e:
-        #     return JsonResponse({'error': f'An error occurred: {str(e)}'})
-
+      
 @csrf_exempt
 def get_attendance(request):
     if request.method == 'POST':
@@ -326,9 +266,7 @@ def get_attendance(request):
         except Subject.DoesNotExist:
             total_attendance = None
 
-        # print(total_attendance)
-        # print("total:",subject)
-        # print("student:",student_attendance)
+     
 
         subject_dict = {}
 
@@ -343,7 +281,6 @@ def get_attendance(request):
             
             subject_dict[subject_name][0] = subject_lectures.get(subject_name, 0) 
             subject_dict[subject_name][1] =(attendance.attendance)
-        # print(subject_dict)
         response_data = {
             'student': student,
             'batch': batch,
@@ -353,9 +290,7 @@ def get_attendance(request):
         
         return JsonResponse(response_data)
     return JsonResponse({'error': 'Invalid request method'})
-        # except Exception as e:
-        #     return JsonResponse({'error': f'An error occurred: {str(e)}'})
-
+        
 @csrf_exempt
 def upload_result(request):
     try:
@@ -383,10 +318,7 @@ def upload_result(request):
                 return JsonResponse({'error': 'File is empty or invalid format'})
             final_df = df.iloc[2:].reset_index(drop=True)
             final_df.columns = ['enrollment_number', 'marks']
-            # final_df = df[2:]
             
-            # print(final_df)
-            # iterating each row
             for index, row in final_df.iterrows():
                 print(row['enrollment_number'],row['marks'])
                 result,created = Result.objects.get_or_create(
@@ -453,7 +385,6 @@ def get_result(request):
 def get_result_sem(request):
     try:
         if request.method == "POST":
-            # Get all unique 'sem' values from the Result model
             unique_sems = Result.objects.values_list('sem', flat=True).distinct()
             if(unique_sems):
                 return JsonResponse({'unique_sems': list(unique_sems)})
@@ -469,16 +400,13 @@ def get_result_sem(request):
 def upload_document(request):
     try:
         if request.method == "POST":
-            # Check if the 'document' and 'title' are in the request
             if request.FILES.get('document') and request.POST.get('title'):
                 title = request.POST.get('title')
                 document = request.FILES['document']
 
-                # Ensure the uploaded file is a PDF
                 if document.content_type != 'application/pdf':
                     return JsonResponse({'resp': 0, 'message': 'Only PDF files are allowed.'})
 
-                # Save the document
                 doc_instance = Document(title=title, document=document)
                 doc_instance.save()
 
@@ -496,16 +424,14 @@ def upload_document(request):
 def get_all_documents(request):
     try:
         if request.method == "POST":
-            # Get all document entries
             documents = Document.objects.all().order_by('-id')
             
-            # Manually serialize the data
             document_list = []
             for doc in documents:
                 document_list.append({
                     'id': doc.id,
                     'title': doc.title,
-                    'document': doc.document.url  # This URL will point to the media file
+                    'document': doc.document.url  
                 })
 
             return JsonResponse({'documents': document_list})
