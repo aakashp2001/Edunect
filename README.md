@@ -8,7 +8,7 @@ Backend: Django
 Frontend: React
 
 # Downloading Dependencies
-### pyhton dependencies
+### python dependencies
 Install Virtual Environment
 ```cmd
 Python -m venv env
