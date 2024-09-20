@@ -16,6 +16,8 @@ import TimeTable from './views/TimeTable.jsx';
 import Navigation from './views/components/Navigation.jsx';
 import UserProfile from './views/components/UserProfile.jsx';
 import Result from './views/Result.jsx'
+import AdminAttendance from './views/AdminAttendance.jsx';
+import AdminResult from "./views/AdminResult.jsx"
 function App() {
   /***
    * ### Project Title: Edunect
@@ -54,7 +56,9 @@ FSD-2 and FCSP-2
               <Route path="/document" element={<Documents />} />
               <Route path='/students' element={<Student />} />
               <Route path='/notifications' element={<Notifications />} />
+              <Route path="/admin/get-attendance" element={<AdminAttendance/>}/>
               <Route path='/timetable' element={<TimeTable />} />
+              <Route path='/admin/get-result' element={<AdminResult/>}/>
             </Route>
 
             <Route path="*" element={<NotFound />} />

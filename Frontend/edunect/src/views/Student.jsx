@@ -4,6 +4,7 @@ import axios from 'axios';
 import PaginationPageBox from './components/PaginationPageBox';
 import StudentComponent from './components/studentComponent';
 import { useLogin } from "../required_context/LoginContext";
+import { useNavigate } from 'react-router-dom';
 
 function Student() {
     const [studentArray, setStudentArray] = useState([]);
@@ -11,6 +12,7 @@ function Student() {
     const [pageArray, setPageArray] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
     const [searchMessage, setSeearchMessage] = useState("");
+    const navigate = useNavigate()
     const PAGE_SIZE = 10;
 
     const paginate = (array, page_size, page_number) => {
@@ -49,6 +51,21 @@ function Student() {
             setSeearchMessage(``);
         }
         setSearchResult(filtered);
+    }
+
+    const handleShowAttendance=(student)=>{
+        console.log(student)
+        const queryParams = new URLSearchParams({ 'batch':student.batch,'sem':student.sem,'student': student.roll_no }).toString();
+        // Navigate to the desired path with query string
+        navigate(`/admin/get-attendance?${queryParams}`);
+    }
+
+    const handleResult = (student) =>{
+        console.log(student)
+        const queryParams = new URLSearchParams({'username': student.username }).toString();
+        // Navigate to the desired path with query string
+        navigate(`/admin/get-result?${queryParams}`);
+ 
     }
 
     useEffect(() => {
@@ -101,8 +118,11 @@ function Student() {
                             <p className="text-sm text-gray-700">
                                 <span className="font-bold">Roll No:</span> {student.roll_no}
                             </p>
+                            <button onClick={()=>{handleShowAttendance(student)}}>Show Attendence</button>
+                            <button onClick={()=>{handleResult(student)}}>Show Result</button>
+
                         </div>
-                    ))}
+                    ))} 
                 </div>
             </div>
 
