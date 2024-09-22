@@ -49,7 +49,7 @@ function ChangePassword() {
         e.preventDefault()   
         console.log(CheckPassword(password));
         if(CheckPassword(password) && (password === confirmPassword)){
-            fetch('http://127.0.0.1:8000/account/passChange',{
+            fetch(`http://127.0.0.1:8000/account/passChange`,{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/json'

@@ -42,7 +42,7 @@ const Notifications = () => {
         }
 
         setLoader(true);
-        axios.get('http://127.0.0.1:8000/account/getNotification')
+        axios.get(`http://127.0.0.1:8000/account/getNotification`)
             .then((response) => {
                 const arr = response.data.data;
 
@@ -67,7 +67,7 @@ const Notifications = () => {
             'date': new Date(date).toLocaleDateString('en-GB')
         };
 
-        axios.post('http://127.0.0.1:8000/account/addNotification', formData, {
+        axios.post(`http://127.0.0.1:8000/account/addNotification`, formData, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -78,7 +78,7 @@ const Notifications = () => {
                 setHeader('')
                 setBody('')
                 setDate(new Date().toISOString().split('T')[0]);
-                axios.get('http://127.0.0.1:8000/account/getNotification')
+                axios.get(`http://127.0.0.1:8000/account/getNotification`)
                     .then((response) => {
                         const arr = response.data.data;
 

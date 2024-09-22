@@ -32,7 +32,7 @@ function Documents() {
     useEffect(() => {
         axios(
             {
-                url: 'http://127.0.0.1:8000/scheduler/get_all_documents',
+                url: `http://127.0.0.1:8000/scheduler/get_all_documents`,
                 method: 'POST',
             })
             .then(
@@ -64,7 +64,7 @@ function Documents() {
         formData.append('document', fileState)
         axios(
             {
-                url: 'http://127.0.0.1:8000/scheduler/upload_document',
+                url: `http://127.0.0.1:8000/scheduler/upload_document`,
                 method: 'POST',
                 data: formData,
                 headers: { "Content-Type": "multipart/form-data" },
@@ -75,7 +75,7 @@ function Documents() {
                     if (res.data.resp === 1) {
                         axios(
                             {
-                                url: 'http://127.0.0.1:8000/scheduler/get_all_documents',
+                                url: `http://127.0.0.1:8000/scheduler/get_all_documents`,
                                 method: 'POST',
                             })
                             .then(

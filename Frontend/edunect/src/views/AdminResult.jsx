@@ -11,7 +11,7 @@ function AdminResult() {
 
   useEffect(() => {
       axios({
-        url: 'http://127.0.0.1:8000/scheduler/get_result_sem',
+        url: `http://127.0.0.1:8000/scheduler/get_result_sem`,
         method: 'post',
       })
         .then((res) => {
@@ -28,7 +28,7 @@ function AdminResult() {
       formData.append('student', username);
       formData.append('sem', selected_sem);
       axios({
-        url: 'http://127.0.0.1:8000/scheduler/get_result',
+        url: `http://127.0.0.1:8000/scheduler/get_result`,
         method: 'post',
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },

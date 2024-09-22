@@ -21,7 +21,7 @@ function Result() {
   useEffect(() => {
     if (userType === 'student') {
       axios({
-        url: 'http://127.0.0.1:8000/scheduler/get_result_sem',
+        url: `http://127.0.0.1:8000/scheduler/get_result_sem`,
         method: 'post',
       })
       .then((res) => {
@@ -36,7 +36,7 @@ function Result() {
       formData.append('student', username);
       formData.append('sem', selected_sem);
       axios({
-        url: 'http://127.0.0.1:8000/scheduler/get_result',
+        url: `http://127.0.0.1:8000/scheduler/get_result`,
         method: 'post',
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
@@ -145,7 +145,7 @@ function Result() {
       formData.append('subject', subject);
       axios({
         method: "post",
-        url: "http://127.0.0.1:8000/scheduler/upload_result",
+        url: `http://127.0.0.1:8000/scheduler/upload_result`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       })

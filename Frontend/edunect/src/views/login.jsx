@@ -15,7 +15,7 @@ function Login() {
     const performLogin = (e) => {
         e.preventDefault();
         console.log('Performing login');
-        fetch('http://127.0.0.1:8000/account/login', {
+        fetch(`http://127.0.0.1:8000/account/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

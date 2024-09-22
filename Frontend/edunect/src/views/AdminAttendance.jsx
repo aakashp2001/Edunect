@@ -43,7 +43,7 @@ function AdminAttendance(props) {
       setMessage('');
 
       try {
-        const resp = await axios.post('http://127.0.0.1:8000/scheduler/get_attendance', formData, {
+        const resp = await axios.post(`http://127.0.0.1:8000/scheduler/get_attendance`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 

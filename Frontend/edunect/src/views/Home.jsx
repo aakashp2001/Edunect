@@ -31,7 +31,7 @@ function Home() {
     //   // window.location.reload();
     // }
 
-    axios.get('http://127.0.0.1:8000/account/getNotification')
+    axios.get(`http://127.0.0.1:8000/account/getNotification`)
       .then((response) => {
         const arr = (response.data.data);
 

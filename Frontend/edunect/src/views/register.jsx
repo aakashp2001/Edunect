@@ -21,7 +21,7 @@ function Register() {
     formData.append('sem', sem);
     setLoading(true)
 
-    fetch('http://127.0.0.1:8000/account/signup', {
+    fetch(`http://127.0.0.1:8000/account/signup`, {
       method: 'POST',
       body: formData,
     })

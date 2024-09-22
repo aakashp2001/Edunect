@@ -118,8 +118,8 @@ function Student() {
                             <p className="text-sm text-gray-700">
                                 <span className="font-bold">Roll No:</span> {student.roll_no}
                             </p>
-                            <button onClick={()=>{handleShowAttendance(student)}}>Show Attendence</button>
-                            <button onClick={()=>{handleResult(student)}}>Show Result</button>
+                            <button onClick={()=>{handleShowAttendance(student)}}  className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Show Attendence</button>
+                            <button onClick={()=>{handleResult(student)}}  className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Show Result</button>
 
                         </div>
                     ))} 

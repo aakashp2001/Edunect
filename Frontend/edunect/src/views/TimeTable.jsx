@@ -34,7 +34,7 @@ function TimeTable() {
             formData.append('sem', sem)
             formData.append('batch', batch)
             axios({
-                url: 'http://127.0.0.1:8000/scheduler/get_time_table', method: 'post',
+                url: `http://127.0.0.1:8000/scheduler/get_time_table`, method: 'post',
                 data: formData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
@@ -180,7 +180,7 @@ function TimeTable() {
 
             // console.log(formData);
 
-            // fetch('http://127.0.0.1:8000/scheduler/upload_timetable', {
+            // fetch(`http://127.0.0.1:8000/scheduler/upload_timetable`, {
             //     method: 'POST',
             //     body: formData,
             // }).then(res => {
@@ -198,7 +198,7 @@ function TimeTable() {
             //     })
             axios({
                 method: "post",
-                url: "http://127.0.0.1:8000/scheduler/upload_timetable",
+                url: `http://127.0.0.1:8000/scheduler/upload_timetable`,
                 data: formData,
                 headers: { "Content-Type": "multipart/form-data" },
             })

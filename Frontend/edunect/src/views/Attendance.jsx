@@ -51,7 +51,7 @@ const Attendance = () => {
 
           axios({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/scheduler/get_attendance',
+            url: `http://127.0.0.1:8000/scheduler/get_attendance`,
             data: formData,
             headers: { 'Content-Type': 'multipart/form-data' },
           })
@@ -139,7 +139,7 @@ const Attendance = () => {
       setLoading(true);
       axios({
         method: 'POST',
-        url: 'http://127.0.0.1:8000/scheduler/upload_attendance',
+        url: `http://127.0.0.1:8000/scheduler/upload_attendance`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       })
